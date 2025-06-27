@@ -28,7 +28,7 @@ yarn add react-ui
  - Toast (WIP)
  - Dropdown (WIP)
 
-## 🔧 Usage
+## Usage
 
 Example using the Accordion component!
 
