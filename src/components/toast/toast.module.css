@@ -1,0 +1,9 @@
+.toast {
+    position: absolute;
+    padding: 1rem;
+    background-color: rgb(93, 193, 240);
+}
+
+.toastHeader {
+    
+}
