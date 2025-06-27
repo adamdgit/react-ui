@@ -1,10 +1,10 @@
 # React-UI
 
-**React-UI** is a lightweight and easy-to-use React component library designed to help developers build modern web apps faster. It provides a growing set of reusable, accessible, and customizable UI components like Toasts, Accordions, Dropdowns, and more.
+**React-UI** is a WIP project, as a React & Typescript component library. It aims to be simple, lightweight, with no external dependencies. Just simple, accessible components. 
 
 ---
 
-## 🚀 Features
+## Features
 
 - Lightweight and minimal
 - Easily customizable
@@ -14,7 +14,7 @@
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 npm install react-ui
@@ -30,16 +30,34 @@ yarn add react-ui
 
 ## 🔧 Usage
 
-Here’s a basic example using the `Toast` component:
+Example using the Accordion component!
 
 ```tsx
-import { Toast } from "react-ui";
+import {
+   Accordion,  
+   AccordionItem,
+   AccordionHeader,
+   AccordionBody
+} from "react-ui";
 
 function App() {
   return (
-    <Toast position="bottom-right">
-      Hello from the toast!
-    </Toast>
+    <Accordion>
+        <AccordionItem>
+            <AccordionHeader>Section 1</AccordionHeader>
+            <AccordionBody>Content for section 1</AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem>
+            <AccordionHeader>Section 2</AccordionHeader>
+            <AccordionBody>Content for section 2</AccordionBody>
+        </AccordionItem>
+
+        <AccordionItem>
+            <AccordionHeader>Section 3</AccordionHeader>
+            <AccordionBody>Content for section 3</AccordionBody>
+        </AccordionItem>
+    </Accordion>
   );
 }
 ```
