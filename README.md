@@ -1,14 +1,14 @@
-# React-UI
+# Atom-UI
 
-**React-UI** is a WIP project, as a React & Typescript component library. It aims to be simple, lightweight, with no external dependencies. Just simple, accessible components. 
+**Atom-UI** is a project for React & Typescript as a component library. It aims to be simple, lightweight, with no external dependencies and fully accessible. 
 
 ---
 
 ## Features
 
 - Lightweight and minimal
-- Easily customizable
-- Built for React & Typescript
+- Fully accessible
+- Customizable CSS, or just use the default styles
 - Plug-and-play components
 - No dependencies beyond React
 
@@ -16,11 +16,7 @@
 
 ## Installation
 
-```bash
-npm install react-ui
-# or
-yarn add react-ui
-```
+... coming eventually
 
 ## Components
 
