@@ -1,4 +1,5 @@
 # Atom-UI
+Created By Adam Demol. 
 
 **Atom-UI** is a project for React & Typescript as a component library. It aims to be simple, lightweight, with no external dependencies and fully accessible. 
 
@@ -22,7 +23,10 @@
 
  - Accordion
  - Toast (WIP)
- - Dropdown (WIP)
+ - Dropdown (coming soon)
+ - Tablist (coming soon)
+ - Popover (coming soon)
+ - Tooltip (coming soon)
 
 ## Usage
 
@@ -34,7 +38,7 @@ import {
    AccordionItem,
    AccordionHeader,
    AccordionBody
-} from "react-ui";
+} from "atom-ui";
 
 function App() {
   return (
