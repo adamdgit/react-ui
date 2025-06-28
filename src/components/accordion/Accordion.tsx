@@ -93,8 +93,6 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
         const { headers } = accordionContext;
         const currentIndex = headers.indexOf(ref.current!);
 
-        e.preventDefault();
-
         switch (e.key) {
             case "ArrowDown": 
                 headers[(currentIndex + 1) % headers.length]?.focus();

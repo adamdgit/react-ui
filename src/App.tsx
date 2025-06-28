@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { 
     Accordion, 
@@ -9,10 +9,16 @@ import {
 
 import { 
     Toast, 
-    ToastHeader 
+    ToastItem 
 } from './components/toast'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+
 export default function App() {
+
+    const [isOpen, setIsOpen] = useState(true);
+
   return (
     <div>
         <h1>Hello world</h1>
@@ -38,8 +44,19 @@ export default function App() {
             </AccordionItem>
         </Accordion>
 
-        <Toast position='top-center'>
-            <ToastHeader>Test toast</ToastHeader>
+        <Toast 
+            position='top-right' 
+            durationMS={5000} 
+            isOpen={isOpen} 
+            setIsOpen={setIsOpen}
+            progressBar={true}
+        >
+            <ToastItem>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    TESTING TOAST
+                    <FontAwesomeIcon icon={faBell} />
+                </div>
+            </ToastItem>
         </Toast>
     </div>
   )

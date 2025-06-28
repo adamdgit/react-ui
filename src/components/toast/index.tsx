@@ -2,5 +2,5 @@
 
 export {
     Toast,
-    ToastHeader
+    ToastItem
 } from "./Toast"
