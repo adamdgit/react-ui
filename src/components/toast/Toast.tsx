@@ -64,7 +64,7 @@ function ToastItem({ className, children } :ToastItemProps) {
                 onClick={() => context?.setIsOpen(false)}
                 aria-label="Close notification"
             >
-                <FontAwesomeIcon icon={faXmark} />
+                <FontAwesomeIcon icon={faXmark} height={18} width={18} />
             </button>
             {children}
             <ProgressBar />
@@ -77,18 +77,18 @@ function ToastItem({ className, children } :ToastItemProps) {
 function ProgressBar() {
     const context = useContext(ToastContext);
     const [percent, setPercent] = useState(100);
+    const INTERVAL = 50;
 
     useEffect(() => {
         if (!context) return
 
         // work out the interval to update the progress bar, based on 100% - 0% and duration
-        const interval = 100 / (context?.durationMS / 50);
-        console.log(interval)
+        const updateInterval = 100 / (context?.durationMS / INTERVAL);
 
         // Every 100ms reduce percentage based on duration
         const timer = setInterval(() => {
-            setPercent(prev => prev -= interval);
-        }, 50);
+            setPercent(prev => prev -= updateInterval);
+        }, INTERVAL);
 
         return () => clearInterval(timer)
     },[context])
