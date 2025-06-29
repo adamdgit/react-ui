@@ -12,24 +12,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 type AccordionProps = {
-    className?: string,
-    children: ReactNode
+    className?: string;
+    children: ReactNode;
+    mode: "multiple" | "single"; // All accordion items can be expanded or only 1
 }
 
 const AccordionContext = createContext<{
-  registerHeader: (ref: HTMLButtonElement) => void;
-  headers: HTMLButtonElement[];
+    registerHeader: (ref: HTMLButtonElement) => void;
+    headers: HTMLButtonElement[];
+    mode: "multiple" | "single";
+    openItemId: string | null;
+    setOpenItemId: React.Dispatch<React.SetStateAction<string | null>>;
 } | null>(null);
 
-function Accordion({ className, children }: AccordionProps) {
-  const [headers, setHeaders] = useState<HTMLButtonElement[]>([]);
+function Accordion({ className, children, mode }: AccordionProps) {
+    const [headers, setHeaders] = useState<HTMLButtonElement[]>([]);
+    const [openItemId, setOpenItemId] = useState<string | null>(null);
 
-  const registerHeader = (ref: HTMLButtonElement) => {
-    setHeaders((prev) => [...prev.filter((el) => el !== ref), ref]);
-  };
+    const registerHeader = (ref: HTMLButtonElement) => {
+        setHeaders((prev) => [...prev.filter((el) => el !== ref), ref]);
+    };
 
   return (
-    <AccordionContext.Provider value={{ headers, registerHeader }}>
+    <AccordionContext.Provider value={{ headers, registerHeader, mode, openItemId, setOpenItemId }}>
         <div 
             className={className ?? styles.accordion} 
             role="presentation"
@@ -42,29 +47,45 @@ function Accordion({ className, children }: AccordionProps) {
 
 //--------------------------------------------------------------------//
 
-const AccordionItemContext = createContext<{
-  isOpen: boolean;
-  toggle: () => void;
-  buttonID: string;
-} | null>(null);
-
 type AccordionItemProps = {
     className?: string;
     children: ReactNode;
 };
 
-function AccordionItem({ className, children }: AccordionItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen((prev) => !prev);
-  const buttonID = crypto.randomUUID();
+const AccordionItemContext = createContext<{
+    isOpen: boolean;
+    toggle: () => void;
+    id: string
+} | null>(null);
 
-  return (
-    <AccordionItemContext.Provider value={{ isOpen, toggle, buttonID }}>
-        <div className={className ?? styles.accordionItem}>
-            {children}
-        </div>
-    </AccordionItemContext.Provider>
-  );
+function AccordionItem({ className, children }: AccordionItemProps) {
+    const context = useContext(AccordionContext)
+    if (!context) throw new Error("AccordionItem must be a child of Accordion");
+
+    const [id] = useState(crypto.randomUUID());
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => {
+        if (context.mode === 'single') {
+            context.setOpenItemId(isOpen ? null : id)
+        }
+        setIsOpen(!isOpen);
+    };
+
+    // Only close not selected items if in single mode
+    useEffect(() => {
+        if (context.mode === 'single' && context.openItemId !== id) {
+            setIsOpen(false);
+        }
+    },[context.openItemId, id, context.mode])
+
+    return (
+        <AccordionItemContext.Provider value={{ isOpen, toggle, id }}>
+            <div className={className ?? styles.accordionItem}>
+                {children}
+            </div>
+        </AccordionItemContext.Provider>
+    );
 }
 
 //--------------------------------------------------------------------//
@@ -115,7 +136,7 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
   return (
     <button
       ref={ref}
-      id={context.buttonID}
+      id={context.id}
       onClick={context.toggle}
       onKeyDown={handleKeyPress}
       className={className ?? styles.accordionHeader}
@@ -146,7 +167,7 @@ function AccordionBody({ className, children }: AccordionBodyProps) {
         <div 
             className={`${className ?? styles.accordionBody} ${context.isOpen ? styles.show : ''}`}
             role="region"
-            aria-labelledby={context.buttonID}
+            aria-labelledby={context.id}
             aria-hidden={!context.isOpen}
         >
             <div className={styles.accordionBodyText}>
