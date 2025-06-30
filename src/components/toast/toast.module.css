@@ -1,7 +1,7 @@
 .toast {
     position: absolute;
     padding: 1rem 1.4rem;
-    background-color: #333;
+    background-color: #3f383b;
     color: white;
     border-radius: 5px;
     width: 300px;
@@ -11,7 +11,7 @@
     transition: 200ms ease-in-out;
 }
 .toast:hover {
-    background-color: #444;
+    background-color: #2e282b;
 }
 
 .toastItem {
@@ -29,7 +29,7 @@
     color: white;
 }
 .toastClose:hover {
-    color: rgb(255, 0, 43);
+    color: #ee298c;
 }
 
 .toastProgress {
