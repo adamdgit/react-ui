@@ -22,7 +22,7 @@ Created By Adam Demol.
 ## Components
 
  - Accordion
- - Toast (WIP)
+ - Toast
  - Dropdown (coming soon)
  - Tablist (coming soon)
  - Popover (coming soon)
@@ -42,7 +42,7 @@ import {
 
 function App() {
   return (
-    <Accordion>
+    <Accordion mode='single'>
         <AccordionItem>
             <AccordionHeader>Section 1</AccordionHeader>
             <AccordionBody>Content for section 1</AccordionBody>
