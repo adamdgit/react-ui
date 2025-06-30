@@ -135,19 +135,19 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
 
   return (
     <button
-      ref={ref}
-      id={context.id}
-      onClick={context.toggle}
-      onKeyDown={handleKeyPress}
-      className={className ?? styles.accordionHeader}
-      aria-expanded={context.isOpen}
-      aria-label="Accordion Header"
+        ref={ref}
+        id={context.id}
+        onClick={context.toggle}
+        onKeyDown={handleKeyPress}
+        className={className ?? styles.accordionHeader}
+        aria-expanded={context.isOpen}
+        aria-label="Accordion Header"
     >
-      {children}
-    <FontAwesomeIcon 
-        icon={faChevronDown}
-        className={`${styles.headerIcon} ${context.isOpen ? styles.rotate : ''}`} 
-    />
+        {children}
+        <FontAwesomeIcon 
+            icon={faChevronDown}
+            className={`${styles.headerIcon} ${context.isOpen ? styles.rotate : ''}`} 
+        />
     </button>
   );
 }
