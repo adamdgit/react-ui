@@ -12,8 +12,14 @@ import {
     ToastItem 
 } from './components/toast'
 
-export default function App() {
+import { 
+    TooltipPopup, 
+    TooltipWrap 
+} from './components/tooltip';
 
+import "./styles.css"
+
+export default function App() {
     const [isOpen, setIsOpen] = useState(true);
 
     return (
@@ -54,6 +60,18 @@ export default function App() {
                     </div>
                 </ToastItem>
             </Toast>
+
+            <div style={{padding: '30px'}}>
+                <TooltipWrap>
+                    <button style={{padding: '5px'}}>+</button>
+                    <TooltipPopup 
+                        content='Add to cart'
+                        position='bottom-center'
+                    >
+                    </TooltipPopup>
+                </TooltipWrap>
+            </div>
+
         </div>
     )
 }
