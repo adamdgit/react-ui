@@ -54,7 +54,7 @@ type ToastItemProps = {
     children: ReactNode
 }
 
-function ToastItem({ className, children } :ToastItemProps) {
+function ToastItem({ className, children }: ToastItemProps) {
     const context = useContext(ToastContext);
 
     return (
@@ -64,7 +64,7 @@ function ToastItem({ className, children } :ToastItemProps) {
                 onClick={() => context?.setIsOpen(false)}
                 aria-label="Close notification"
             >
-                <FontAwesomeIcon icon={faXmark} height={18} width={18} />
+                <FontAwesomeIcon icon={faXmark} width={18} />
             </button>
             {children}
             <ProgressBar />

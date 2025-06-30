@@ -23,10 +23,13 @@ Created By Adam Demol.
 
  - Accordion
  - Toast
- - Dropdown (coming soon)
+ - Tooltip
+ - Dialog with backdrop (coming soon)
+ - Rating (coming soon)
+ - Dropdown Select (coming soon)
  - Tablist (coming soon)
  - Popover (coming soon)
- - Tooltip (coming soon)
+ - Comparison List (coming soon)
 
 ## Usage
 

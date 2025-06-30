@@ -6,6 +6,7 @@
     height: fit-content;
     font-size: .9rem;
     color: white;
+    z-index: 99999;
 }
 
 .tooltip:hover > .popupTop, 

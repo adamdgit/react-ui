@@ -18,6 +18,7 @@ import {
 } from './components/tooltip';
 
 import "./styles.css"
+import { Select, SelectItem } from './components/select/Select';
 
 export default function App() {
     const [isOpen, setIsOpen] = useState(true);
@@ -72,6 +73,18 @@ export default function App() {
                 </TooltipWrap>
             </div>
 
+            <form>
+                <Select
+                    id='select1'
+                    label='select1'
+                    defaultValue={1}
+                    onChange={(value) => console.log('changed', value)}
+                >
+                    <SelectItem value={1}>One</SelectItem>
+                    <SelectItem value={2}>Two</SelectItem>
+                    <SelectItem value={3}>Three</SelectItem>
+                </Select>
+            </form>
         </div>
     )
 }

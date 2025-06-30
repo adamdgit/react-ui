@@ -20,8 +20,8 @@ function TooltipWrap({ className, children }: TooltipProps) {
     useEffect(() => {
         if (!ref) return 
 
-       elementSize.width = ref.current?.clientWidth ?? 0
-       elementSize.height = ref.current?.clientHeight ?? 0
+        elementSize.width = ref.current?.clientWidth ?? 0
+        elementSize.height = ref.current?.clientHeight ?? 0
     },[])
 
     return (

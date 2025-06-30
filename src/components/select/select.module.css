@@ -1,0 +1,37 @@
+.selectWrap {
+    position: relative;
+    display: grid;
+    font-family: sans-serif;
+}
+
+.selectList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.selectItem {
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+}
+.selectItem:hover,
+.selectItem:focus {
+    background: #f0f0f0;
+}
+
+.selectLabel {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;   
+}
