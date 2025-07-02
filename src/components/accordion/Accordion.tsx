@@ -18,8 +18,8 @@ type AccordionProps = {
 }
 
 const AccordionContext = createContext<{
-    registerHeader: (ref: HTMLButtonElement) => void;
     headers: HTMLButtonElement[];
+    setHeaders: React.Dispatch<React.SetStateAction<HTMLButtonElement[]>>;
     mode: "multiple" | "single";
     openItemId: string | null;
     setOpenItemId: React.Dispatch<React.SetStateAction<string | null>>;
@@ -29,20 +29,16 @@ function Accordion({ className, children, mode }: AccordionProps) {
     const [headers, setHeaders] = useState<HTMLButtonElement[]>([]);
     const [openItemId, setOpenItemId] = useState<string | null>(null);
 
-    const registerHeader = (ref: HTMLButtonElement) => {
-        setHeaders((prev) => [...prev.filter((el) => el !== ref), ref]);
-    };
-
-  return (
-    <AccordionContext.Provider value={{ headers, registerHeader, mode, openItemId, setOpenItemId }}>
-        <div 
-            className={className ?? styles.accordion} 
-            role="presentation"
-        >
-            {children}
-        </div>
-    </AccordionContext.Provider>
-  );
+    return (
+        <AccordionContext.Provider value={{ headers, setHeaders, mode, openItemId, setOpenItemId }}>
+            <div 
+                className={className ?? styles.accordion} 
+                role="presentation"
+            >
+                {children}
+            </div>
+        </AccordionContext.Provider>
+    );
 }
 
 //--------------------------------------------------------------------//
@@ -106,7 +102,10 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
 
     useEffect(() => {
         if (ref.current) {
-            accordionContext.registerHeader(ref.current);
+            accordionContext.setHeaders(prev => {
+                if (!ref.current) return prev
+                return [...prev.filter((el) => el !== ref.current), ref.current]
+            });
         }
     }, [ref]);
 
@@ -131,7 +130,7 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
                 headers[headers.length - 1]?.focus();
                 break;
         }
-  }
+    }
 
   return (
     <button
