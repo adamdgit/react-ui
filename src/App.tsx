@@ -76,13 +76,12 @@ export default function App() {
             <form>
                 <Select
                     id='select1'
-                    label='select1'
-                    defaultValue={1}
+                    label='Year'
                     onChange={(value) => console.log('changed', value)}
                 >
-                    <SelectItem value={1}>One</SelectItem>
-                    <SelectItem value={2}>Two</SelectItem>
-                    <SelectItem value={3}>Three</SelectItem>
+                    <SelectItem value={2012}>2012</SelectItem>
+                    <SelectItem value={2013}>2013</SelectItem>
+                    <SelectItem value={2014}>2014</SelectItem>
                 </Select>
             </form>
         </div>
