@@ -5,6 +5,7 @@ import styles from "./tooltip.module.css"
 type TooltipProps = {
     className?: string;
     children: ReactNode;
+    style?: React.CSSProperties;
 }
 
 const TooltipContext = createContext<{
@@ -12,7 +13,7 @@ const TooltipContext = createContext<{
     ref: React.RefObject<HTMLDivElement | null>
 } | null>(null);
 
-function TooltipWrap({ className, children }: TooltipProps) {
+function TooltipWrap({ className, children, style }: TooltipProps) {
     const elementSize = { width: 0, height: 0 };
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -27,6 +28,7 @@ function TooltipWrap({ className, children }: TooltipProps) {
     return (
         <TooltipContext.Provider value={{ elementSize, ref }}>
             <div 
+                style={style}
                 ref={ref}
                 className={className ?? styles.tooltip} 
                 role="status"
@@ -42,12 +44,13 @@ function TooltipWrap({ className, children }: TooltipProps) {
 
 type TooltipPopupProps = {
     className?: string;
+    style?: React.CSSProperties;
     content: string;
     position: "top-center" | "bottom-center";
     marginOffset?: number; // margin on element ruins absolute position
 }
 
-function TooltipPopup({ className, content, position, marginOffset }: TooltipPopupProps) {
+function TooltipPopup({ className, style, content, position, marginOffset }: TooltipPopupProps) {
     const context = useContext(TooltipContext);
 
     useEffect(() => {
@@ -68,6 +71,7 @@ function TooltipPopup({ className, content, position, marginOffset }: TooltipPop
 
     return (
         <div 
+            style={style}
             className={className ??
                 `${styles.tooltipPopup} ${position === "bottom-center" ? styles.popupBottom : styles.popupTop}`
             }
