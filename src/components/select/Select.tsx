@@ -49,7 +49,7 @@ function Select({ className, children, id, label, defaultValue, onChange }: Acco
                 return; // Still focused on dropdown child, do nothing
             }
 
-            // Focus is outside list, close list
+            // Focus is outside list, close listasa
             setShowList(false);
         }
     }
@@ -96,9 +96,13 @@ function Select({ className, children, id, label, defaultValue, onChange }: Acco
                 tabIndex={0}
                 onKeyDown={handleKeyPress}
                 onBlur={handleOnBlur}
-                aria-label={`${label} dropdown menu`}
+                role="combobox"
+                aria-haspopup="listbox"
+                aria-labelledby={`${id}-label`}
+                aria-controls={`${id}-dropdown`}
             >
                 <label 
+                    id={`${id}-label`}
                     htmlFor={id} 
                     className={styles.selectLabel}
                 >
@@ -117,8 +121,9 @@ function Select({ className, children, id, label, defaultValue, onChange }: Acco
                 />
 
                 <ul 
+                    id={`${id}-dropdown`}
                     className={`${className ?? styles.selectList} ${showList ? styles.show : ""}`} 
-                    role="combobox"
+                    role="listbox"
                 >
                     {children}
                 </ul>
@@ -177,6 +182,7 @@ function SelectItem({ className, children, value }: SelectItemProps) {
             onClick={handleSelectItem}
             onKeyDown={handleKeyPress}
             tabIndex={context?.showList ? 0 : undefined}
+            role="option"
         >
             {children}
         </li>
