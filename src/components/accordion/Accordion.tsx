@@ -14,6 +14,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 type AccordionProps = {
     className?: string;
     children: ReactNode;
+    style?: React.CSSProperties;
     mode: "multiple" | "single"; // All accordion items can be expanded or only 1
 }
 
@@ -25,13 +26,14 @@ const AccordionContext = createContext<{
     setOpenItemId: React.Dispatch<React.SetStateAction<string | null>>;
 } | null>(null);
 
-function Accordion({ className, children, mode }: AccordionProps) {
+function Accordion({ className, children, mode, style }: AccordionProps) {
     const [headers, setHeaders] = useState<HTMLButtonElement[]>([]);
     const [openItemId, setOpenItemId] = useState<string | null>(null);
 
     return (
         <AccordionContext.Provider value={{ headers, setHeaders, mode, openItemId, setOpenItemId }}>
             <div 
+                style={style}
                 className={className ?? styles.accordion} 
                 role="presentation"
             >
@@ -46,6 +48,7 @@ function Accordion({ className, children, mode }: AccordionProps) {
 type AccordionItemProps = {
     className?: string;
     children: ReactNode;
+    style?: React.CSSProperties;
 };
 
 const AccordionItemContext = createContext<{
@@ -54,7 +57,7 @@ const AccordionItemContext = createContext<{
     id: string
 } | null>(null);
 
-function AccordionItem({ className, children }: AccordionItemProps) {
+function AccordionItem({ className, children, style }: AccordionItemProps) {
     const context = useContext(AccordionContext)
     if (!context) throw new Error("AccordionItem must be a child of Accordion");
 
@@ -77,7 +80,10 @@ function AccordionItem({ className, children }: AccordionItemProps) {
 
     return (
         <AccordionItemContext.Provider value={{ isOpen, toggle, id }}>
-            <div className={className ?? styles.accordionItem}>
+            <div 
+                style={style}
+                className={className ?? styles.accordionItem}
+            >
                 {children}
             </div>
         </AccordionItemContext.Provider>
@@ -89,9 +95,10 @@ function AccordionItem({ className, children }: AccordionItemProps) {
 type AccordionHeaderProps = {
     className? : string;
     children: ReactNode;
+    style?: React.CSSProperties;
 };
 
-function AccordionHeader({ className, children }: AccordionHeaderProps) {
+function AccordionHeader({ className, children, style }: AccordionHeaderProps) {
     const context = useContext(AccordionItemContext);
     const accordionContext = useContext(AccordionContext);
 
@@ -139,6 +146,7 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
         onClick={context.toggle}
         onKeyDown={handleKeyPress}
         className={className ?? styles.accordionHeader}
+        style={style}
         aria-expanded={context.isOpen}
         aria-label="Accordion Header"
     >
@@ -156,14 +164,16 @@ function AccordionHeader({ className, children }: AccordionHeaderProps) {
 type AccordionBodyProps = {
     className?: string;
     children: ReactNode;
+    style?: React.CSSProperties;
 };
 
-function AccordionBody({ className, children }: AccordionBodyProps) {
+function AccordionBody({ className, children, style }: AccordionBodyProps) {
     const context = useContext(AccordionItemContext);
     if (!context) throw new Error("AccordionBody must be a child of an AccordionItem");
 
     return (
         <div 
+            style={style}
             className={`${className ?? styles.accordionBody} ${context.isOpen ? styles.show : ''}`}
             role="region"
             aria-labelledby={context.id}

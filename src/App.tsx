@@ -40,10 +40,10 @@ export default function App() {
                 <AccordionItem>
                     <AccordionHeader>Section 3</AccordionHeader>
                     <AccordionBody>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                        Ipsa vero praesentium repudiandae magnam obcaecati, omnis sequi voluptatibus 
-                        voluptatum ab debitis placeat esse accusamus quasi possimus aspernatur 
-                        cumque recusandae voluptates cum!
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate 
+                        aut incidunt ducimus ad enim cumque esse. Quam placeat perspiciatis 
+                        totam praesentium nihil libero commodi modi laboriosam, aspernatur 
+                        architecto doloremque quasi!
                     </AccordionBody>
                 </AccordionItem>
             </Accordion>
@@ -57,21 +57,19 @@ export default function App() {
             >
                 <ToastItem>
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        TESTING TOAST
+                        This is a toast!
                     </div>
                 </ToastItem>
             </Toast>
 
-            <div style={{padding: '30px'}}>
-                <TooltipWrap>
-                    <button style={{padding: '5px'}}>+</button>
-                    <TooltipPopup 
-                        content='Add to cart'
-                        position='bottom-center'
-                    >
-                    </TooltipPopup>
-                </TooltipWrap>
-            </div>
+            <TooltipWrap style={{margin: "20px"}}>
+                <button style={{padding: '.5rem 1rem', background: "#3f383b", color: "#fff", borderRadius: "5px"}}>Add</button>
+                <TooltipPopup 
+                    content='Add to cart'
+                    position='bottom-center'
+                >
+                </TooltipPopup>
+            </TooltipWrap>
 
             <form>
                 <Select
