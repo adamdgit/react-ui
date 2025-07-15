@@ -19,40 +19,64 @@ import {
 
 import "./styles.css"
 import { Select, SelectItem } from './components/select/Select';
+import { Dialog } from './components/dialog/Dialog';
 
 export default function App() {
     const [isOpen, setIsOpen] = useState(true);
+    const data = [
+        {
+            name: 'Section 1',
+            content: 'Content for section 1'
+        },
+        {
+            name: 'Section 2',
+            content: 'Content for section 2'
+        },
+        {
+            name: 'Section 3',
+            content: 
+                `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate 
+                aut incidunt ducimus ad enim cumque esse. Quam placeat perspiciatis 
+                totam praesentium nihil libero commodi modi laboriosam, aspernatur 
+                architecto doloremque quasi!`
+        }
+    ]
+
+    function showToast() {
+        setIsOpen(!isOpen)
+    }
 
     return (
         <div>
             <h1>Hello world</h1>
+            <button onClick={showToast}>Show/Hide Toast</button>
+
             <Accordion mode='single'>
-                <AccordionItem>
-                    <AccordionHeader>Section 1</AccordionHeader>
-                    <AccordionBody>Content for section 1</AccordionBody>
-                </AccordionItem>
-
-                <AccordionItem>
-                    <AccordionHeader>Section 2</AccordionHeader>
-                    <AccordionBody>Content for section 2</AccordionBody>
-                </AccordionItem>
-
-                <AccordionItem>
-                    <AccordionHeader>Section 3</AccordionHeader>
-                    <AccordionBody>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate 
-                        aut incidunt ducimus ad enim cumque esse. Quam placeat perspiciatis 
-                        totam praesentium nihil libero commodi modi laboriosam, aspernatur 
-                        architecto doloremque quasi!
-                    </AccordionBody>
-                </AccordionItem>
+                {data.map(x => (
+                    <AccordionItem key={x.name}>
+                        <AccordionHeader>{x.name}</AccordionHeader>
+                        <AccordionBody>{x.content}</AccordionBody>
+                    </AccordionItem>
+                ))}
             </Accordion>
 
-            <Toast 
+            <Dialog showDialog={true}>
+                <div style={{
+                    display: 'grid',
+                    gap: '1rem',
+                    padding: '2rem',
+                    background: '#222',
+                    color: 'white'
+                }}>
+                    Dialog Content
+                    <button>Click me</button>
+                </div>
+            </Dialog>
+
+            <Toast
                 position='top-right' 
                 durationMS={5000} 
-                isOpen={isOpen} 
-                setIsOpen={setIsOpen}
+                showToast={isOpen} 
                 progressBar={true}
             >
                 <ToastItem>
@@ -64,7 +88,7 @@ export default function App() {
 
             <TooltipWrap style={{margin: "20px"}}>
                 <button style={{padding: '.5rem 1rem', background: "#3f383b", color: "#fff", borderRadius: "5px"}}>Add</button>
-                <TooltipPopup 
+                <TooltipPopup
                     content='Add to cart'
                     position='bottom-center'
                 >
