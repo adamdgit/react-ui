@@ -1,17 +1,9 @@
 
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import styles from "./select.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-
-type AccordionProps = {
-    className?: string;
-    children: ReactNode;
-    id: string;
-    label: string;
-    defaultValue?: string | number;
-    onChange: (value: string) => void;
-}
+import type { SelectItemProps, SelectProps } from "../../types";
 
 const SelectContext = createContext<{
     listItems: (HTMLLIElement | HTMLDivElement)[];
@@ -23,7 +15,7 @@ const SelectContext = createContext<{
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
 } | null>(null);
 
-function Select({ className, children, id, label, defaultValue, onChange }: AccordionProps) {
+function Select({ className, children, id, label, defaultValue, onChange }: SelectProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [showList, setShowList] = useState(false);
     const [selected, setSelected] = useState('');
@@ -32,6 +24,7 @@ function Select({ className, children, id, label, defaultValue, onChange }: Acco
     const [currentIndex, setCurrentIndex] = useState(0);
     const ref = useRef<HTMLDivElement | null>(null);
 
+    // save reference to each list item in the select dropdown
     useEffect(() => {
         if (ref.current) {
             setListItems(prev => {
@@ -45,18 +38,15 @@ function Select({ className, children, id, label, defaultValue, onChange }: Acco
         if (showList) {
             const focusedEl = e.relatedTarget as HTMLElement | null;
 
-            if (focusedEl && e.currentTarget.contains(focusedEl)) {
-                return; // Still focused on dropdown child, do nothing
-            }
+            // Child is focused, don't hide dropdown
+            if (focusedEl && e.currentTarget.contains(focusedEl)) return
 
-            // Focus is outside list, close listasa
             setShowList(false);
         }
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        // always check for open/close of list
-        if (e.key === "Enter") setShowList(!showList);
+        if (e.key === "Enter") setShowList(!showList); // toggle show
         if (e.key === "Escape") setShowList(false);
 
         // Only update selections using keys if list is open
@@ -133,12 +123,6 @@ function Select({ className, children, id, label, defaultValue, onChange }: Acco
 }
 
 //--------------------------------------------------------------------//
-
-type SelectItemProps = {
-    className?: string;
-    children: ReactNode;
-    value: string | number;
-}
 
 function SelectItem({ className, children, value }: SelectItemProps) {
     const context = useContext(SelectContext);

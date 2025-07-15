@@ -1,12 +1,9 @@
 import { createContext, useContext, useEffect, useRef } from "react";
-import type { ReactNode } from "react";
 import styles from "./tooltip.module.css"
-
-type TooltipProps = {
-    className?: string;
-    children: ReactNode;
-    style?: React.CSSProperties;
-}
+import type { 
+    TooltipPopupProps, 
+    TooltipProps 
+} from "../../types";
 
 const TooltipContext = createContext<{
     elementSize: { width: number, height: number };
@@ -41,14 +38,6 @@ function TooltipWrap({ className, children, style }: TooltipProps) {
 }
 
 //--------------------------------------------------------------------//
-
-type TooltipPopupProps = {
-    className?: string;
-    style?: React.CSSProperties;
-    content: string;
-    position: "top-center" | "bottom-center";
-    marginOffset?: number; // margin on element ruins absolute position
-}
 
 function TooltipPopup({ className, style, content, position, marginOffset }: TooltipPopupProps) {
     const context = useContext(TooltipContext);

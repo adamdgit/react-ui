@@ -1,24 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import type { ReactNode } from "react";
 import styles from "./toast.module.css"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-
-type ToastProps = {
-    className?: string;
-    children: ReactNode;
-    position: "none" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "top-center" | "bottom-center";
-    durationMS: number; // Milliseconds
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    progressBar: boolean; // show progress bar?
-}
+import type { ToastItemProps, ToastProps } from "../../types";
 
 const ToastContext = createContext<{
     durationMS: number;
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    show: boolean;
+    setShow: React.Dispatch<React.SetStateAction<boolean>>;
     progressBar: boolean;
 } | null>(null);
 
@@ -32,12 +21,24 @@ const positionStylesMap = {
     "bottom-center": { bottom: "2rem", left: "50%", transform: "translateX(-50%)" },
 }
 
-function Toast({ className, children, position, durationMS, isOpen, setIsOpen, progressBar }: ToastProps) {
+function Toast({ className, style, children, position, durationMS, showToast, progressBar }: ToastProps) {
+    const [show, setShow] = useState(showToast);
+    
+    // add position styles to the provided styles
+    const styleOverride: React.CSSProperties = {
+        ...style,
+        ...positionStylesMap[position],
+    };
+
+    useEffect(() => {
+        setShow(showToast);
+    },[showToast])
+    
     return (
-        <ToastContext.Provider value={{ durationMS, isOpen, setIsOpen, progressBar }}>
+        <ToastContext.Provider value={{ durationMS, show, setShow, progressBar }}>
             <div 
-                className={`${className ?? styles.toast} ${isOpen ? styles.show : ''}`} 
-                style={positionStylesMap[position]}
+                className={`${className ?? styles.toast} ${show ? styles.show : ''}`} 
+                style={styleOverride}
                 role="status"
                 aria-atomic="true"
             >
@@ -49,11 +50,6 @@ function Toast({ className, children, position, durationMS, isOpen, setIsOpen, p
 
 //--------------------------------------------------------------------//
 
-type ToastItemProps = {
-    className?: string;
-    children: ReactNode
-}
-
 function ToastItem({ className, children }: ToastItemProps) {
     const context = useContext(ToastContext);
 
@@ -61,7 +57,7 @@ function ToastItem({ className, children }: ToastItemProps) {
         <div className={className ?? styles.toastItem}>
             <button 
                 className={styles.toastClose}
-                onClick={() => context?.setIsOpen(false)}
+                onClick={() => context?.setShow(false)}
                 aria-label="Close notification"
             >
                 <FontAwesomeIcon icon={faXmark} width={18} />
@@ -82,10 +78,18 @@ function ProgressBar() {
     useEffect(() => {
         if (!context) return
 
+        // if parent ever updates the show to false, we reset the percentage
+        if (!context.show) {
+            setTimeout(() => {
+                setPercent(100);
+            }, 150);
+            return
+        }
+
         // work out the interval to update the progress bar, based on 100% - 0% and duration
         const updateInterval = 100 / (context?.durationMS / INTERVAL);
 
-        // Every 100ms reduce percentage based on duration
+        // Reduce percentage based on durationMS
         const timer = setInterval(() => {
             setPercent(prev => prev -= updateInterval);
         }, INTERVAL);
@@ -95,11 +99,10 @@ function ProgressBar() {
 
     useEffect(() => {
         if (percent <= 0) {
-            context?.setIsOpen(false);
+            context?.setShow(false);
         }
     }, [percent, context]);
 
-    // Only show visual progress bar if true
     if (context?.progressBar) {
         return (
             <div 

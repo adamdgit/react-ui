@@ -1,22 +1,14 @@
 import { 
-    createContext, 
-    useContext, 
-    useEffect, 
-    useRef, 
-    useState
+    createContext, useContext, useEffect, useRef, useState
 } from "react"
-import type { ReactNode } from "react";
 import styles from "./accordion.module.css"
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-
-type AccordionProps = {
-    className?: string;
-    children: ReactNode;
-    style?: React.CSSProperties;
-    mode: "multiple" | "single"; // All accordion items can be expanded or only 1
-}
+import type { 
+    AccordionBodyProps,
+    AccordionHeaderProps,
+    AccordionItemProps, AccordionProps 
+} from "../../types";
 
 const AccordionContext = createContext<{
     headers: HTMLButtonElement[];
@@ -45,12 +37,6 @@ function Accordion({ className, children, mode, style }: AccordionProps) {
 
 //--------------------------------------------------------------------//
 
-type AccordionItemProps = {
-    className?: string;
-    children: ReactNode;
-    style?: React.CSSProperties;
-};
-
 const AccordionItemContext = createContext<{
     isOpen: boolean;
     toggle: () => void;
@@ -58,12 +44,15 @@ const AccordionItemContext = createContext<{
 } | null>(null);
 
 function AccordionItem({ className, children, style }: AccordionItemProps) {
-    const context = useContext(AccordionContext)
-    if (!context) throw new Error("AccordionItem must be a child of Accordion");
+    const context = useContext(AccordionContext);
+    if (!context) {
+        throw new Error("AccordionItem must be a child of Accordion");
+    }
 
     const [id] = useState(crypto.randomUUID());
     const [isOpen, setIsOpen] = useState(false);
 
+    // Keep track of open item when in 'single' mode only
     const toggle = () => {
         if (context.mode === 'single') {
             context.setOpenItemId(isOpen ? null : id)
@@ -71,7 +60,7 @@ function AccordionItem({ className, children, style }: AccordionItemProps) {
         setIsOpen(!isOpen);
     };
 
-    // Only close not selected items if in single mode
+    // Only allow one accordion item to be open when in 'single' mode
     useEffect(() => {
         if (context.mode === 'single' && context.openItemId !== id) {
             setIsOpen(false);
@@ -92,21 +81,17 @@ function AccordionItem({ className, children, style }: AccordionItemProps) {
 
 //--------------------------------------------------------------------//
 
-type AccordionHeaderProps = {
-    className? : string;
-    children: ReactNode;
-    style?: React.CSSProperties;
-};
-
 function AccordionHeader({ className, children, style }: AccordionHeaderProps) {
     const context = useContext(AccordionItemContext);
     const accordionContext = useContext(AccordionContext);
 
-    if (!context || !accordionContext) 
+    if (!context || !accordionContext) {
         throw new Error("AccordionHeader must be a child of an AccordionItem");
+    }
 
     const ref = useRef<HTMLButtonElement>(null);
 
+    // Save references to accordion header items
     useEffect(() => {
         if (ref.current) {
             accordionContext.setHeaders(prev => {
@@ -116,6 +101,7 @@ function AccordionHeader({ className, children, style }: AccordionHeaderProps) {
         }
     }, [ref]);
 
+    // TODO?: Think about saving open item IDS when in multiple mode as well.
     const handleKeyPress = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         const { headers } = accordionContext;
         const currentIndex = headers.indexOf(ref.current!);
@@ -160,12 +146,6 @@ function AccordionHeader({ className, children, style }: AccordionHeaderProps) {
 }
 
 //--------------------------------------------------------------------//
-
-type AccordionBodyProps = {
-    className?: string;
-    children: ReactNode;
-    style?: React.CSSProperties;
-};
 
 function AccordionBody({ className, children, style }: AccordionBodyProps) {
     const context = useContext(AccordionItemContext);
