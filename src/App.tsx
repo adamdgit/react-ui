@@ -60,16 +60,17 @@ export default function App() {
                 ))}
             </Accordion>
 
-            <Dialog showDialog={true}>
+            <Dialog onClose={() => setIsOpen(false)} showDialog={isOpen}>
                 <div style={{
                     display: 'grid',
                     gap: '1rem',
                     padding: '2rem',
-                    background: '#222',
+                    background: "#1b191a",
+                    border: "1px solid #4e4549",
                     color: 'white'
                 }}>
                     Dialog Content
-                    <button>Click me</button>
+                    <button onClick={showToast}>Click me</button>
                 </div>
             </Dialog>
 

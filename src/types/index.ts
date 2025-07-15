@@ -99,6 +99,11 @@ type DialogProps = {
     children: ReactNode;
     style?: React.CSSProperties;
     showDialog: boolean;
+    onClose: () => void;
+};
+
+type DialogWrapperProps = {
+    children: ReactNode;
 };
 
 export type {
@@ -112,5 +117,6 @@ export type {
     ToastItemProps,
     SelectProps,
     SelectItemProps,
-    DialogProps
+    DialogProps,
+    DialogWrapperProps
 }

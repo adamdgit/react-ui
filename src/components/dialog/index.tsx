@@ -2,4 +2,5 @@
 
 export {
     Dialog,
+    DialogWrapper
 } from "./Dialog"
