@@ -24,9 +24,9 @@ Created By Adam Demol.
  - Accordion
  - Toast
  - Tooltip
- - Dialog with backdrop (coming soon)
+ - Dropdown Select
+ - Dialog with backdrop (WIP)
  - Rating (coming soon)
- - Dropdown Select (coming soon)
  - Tablist (coming soon)
  - Popover (coming soon)
  - Comparison List (coming soon)
