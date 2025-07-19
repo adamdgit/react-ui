@@ -1,19 +1,7 @@
-
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./select.module.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import type { SelectItemProps, SelectProps } from "../../types";
-
-const SelectContext = createContext<{
-    listItems: (HTMLLIElement | HTMLDivElement)[];
-    setListItems: React.Dispatch<React.SetStateAction<(HTMLLIElement | HTMLDivElement)[]>>;
-    inputRef: React.RefObject<HTMLInputElement | null>;
-    onChange: (value: string) => void;
-    setSelected: React.Dispatch<React.SetStateAction<string>>;
-    showList: boolean;
-    setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
-} | null>(null);
+import { SelectContext } from "../../context";
 
 function Select({ className, children, id, label, defaultValue, onChange }: SelectProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -98,10 +86,7 @@ function Select({ className, children, id, label, defaultValue, onChange }: Sele
                 >
                     {selected === '' ? label : selected}
                 </label>
-                <FontAwesomeIcon 
-                    icon={faChevronDown}
-                    width={15}
-                />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width={12} viewBox="0 0 512 512">{`<!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->`}<path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
                 <input
                     ref={inputRef}
                     aria-hidden="true"
@@ -126,11 +111,16 @@ function Select({ className, children, id, label, defaultValue, onChange }: Sele
 
 function SelectItem({ className, children, value }: SelectItemProps) {
     const context = useContext(SelectContext);
+    if (!context) throw new Error("Missing context provider")
+
+    const { 
+        setSelected, setCurrentIndex, listItems, setListItems, inputRef, onChange 
+    } = context;
     const ref = useRef(null);
 
     useEffect(() => {
         if (ref.current) {
-            context?.setListItems(prev => {
+            setListItems(prev => {
                 if (!ref.current) return prev
                 return [...prev.filter((el) => el !== ref.current), ref.current]
             });
@@ -138,20 +128,19 @@ function SelectItem({ className, children, value }: SelectItemProps) {
     }, [ref]);
 
     const  handleSelectItem = (e:  React.MouseEvent<HTMLLIElement> | React.KeyboardEvent<HTMLLIElement>) => {
-        if (!context || !context.inputRef.current) return
+        if (!inputRef.current) return
         
         // set value for the hidden input
-        const targetValue = e.currentTarget.dataset.value;
+        const targetValue = e.currentTarget.dataset.value ?? '';
         const targetText = e.currentTarget.innerText;
-        if (!targetValue) return
 
-        context.inputRef.current.value = targetValue;
+        inputRef.current.value = targetValue;
 
-        context.onChange(targetValue);
-        context.setSelected(targetText);
+        onChange(targetValue);
+        setSelected(targetText);
         // Reset selected index to 0, focus dropdown
-        context.setCurrentIndex(0);
-        context.listItems[0].focus();
+        setCurrentIndex(0);
+        listItems[0].focus();
     }
     
     const handleKeyPress = (e: React.KeyboardEvent<HTMLLIElement>) => {
