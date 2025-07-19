@@ -125,11 +125,14 @@ type DialogProps = {
 };
 
 type DialogWrapperProps = {
-    children: ReactNode
+    className?: string;
+    children: ReactNode;
+    style?: React.CSSProperties;
 };
 
 type DialogButtonProps = {
     className?: string;
+    style?: React.CSSProperties;
 }
 
 export type {
