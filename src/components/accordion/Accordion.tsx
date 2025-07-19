@@ -1,22 +1,11 @@
-import { 
-    createContext, useContext, useEffect, useRef, useState
-} from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import styles from "./accordion.module.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import type { 
     AccordionBodyProps,
     AccordionHeaderProps,
     AccordionItemProps, AccordionProps 
 } from "../../types";
-
-const AccordionContext = createContext<{
-    headers: HTMLButtonElement[];
-    setHeaders: React.Dispatch<React.SetStateAction<HTMLButtonElement[]>>;
-    mode: "multiple" | "single";
-    openItemId: string | null;
-    setOpenItemId: React.Dispatch<React.SetStateAction<string | null>>;
-} | null>(null);
+import { AccordionContext, AccordionItemContext } from "../../context";
 
 function Accordion({ className, children, mode, style }: AccordionProps) {
     const [headers, setHeaders] = useState<HTMLButtonElement[]>([]);
@@ -37,35 +26,28 @@ function Accordion({ className, children, mode, style }: AccordionProps) {
 
 //--------------------------------------------------------------------//
 
-const AccordionItemContext = createContext<{
-    isOpen: boolean;
-    toggle: () => void;
-    id: string
-} | null>(null);
-
 function AccordionItem({ className, children, style }: AccordionItemProps) {
     const context = useContext(AccordionContext);
-    if (!context) {
-        throw new Error("AccordionItem must be a child of Accordion");
-    }
+    if (!context) throw new Error("AccordionItem must be a child of Accordion")
 
+    const { mode, openItemId, setOpenItemId } = context;
     const [id] = useState(crypto.randomUUID());
     const [isOpen, setIsOpen] = useState(false);
 
     // Keep track of open item when in 'single' mode only
     const toggle = () => {
-        if (context.mode === 'single') {
-            context.setOpenItemId(isOpen ? null : id)
+        if (mode === 'single') {
+            setOpenItemId(isOpen ? null : id)
         }
         setIsOpen(!isOpen);
     };
 
     // Only allow one accordion item to be open when in 'single' mode
     useEffect(() => {
-        if (context.mode === 'single' && context.openItemId !== id) {
+        if (mode === 'single' && openItemId !== id) {
             setIsOpen(false);
         }
-    },[context.openItemId, id, context.mode])
+    },[openItemId, id, mode])
 
     return (
         <AccordionItemContext.Provider value={{ isOpen, toggle, id }}>
@@ -84,11 +66,11 @@ function AccordionItem({ className, children, style }: AccordionItemProps) {
 function AccordionHeader({ className, children, style }: AccordionHeaderProps) {
     const context = useContext(AccordionItemContext);
     const accordionContext = useContext(AccordionContext);
-
     if (!context || !accordionContext) {
         throw new Error("AccordionHeader must be a child of an AccordionItem");
     }
 
+    const { id, isOpen, toggle} = context;
     const ref = useRef<HTMLButtonElement>(null);
 
     // Save references to accordion header items
@@ -128,19 +110,16 @@ function AccordionHeader({ className, children, style }: AccordionHeaderProps) {
   return (
     <button
         ref={ref}
-        id={context.id}
-        onClick={context.toggle}
+        id={id}
+        onClick={toggle}
         onKeyDown={handleKeyPress}
         className={className ?? styles.accordionHeader}
         style={style}
-        aria-expanded={context.isOpen}
+        aria-expanded={isOpen}
         aria-label="Accordion Header"
     >
         {children}
-        <FontAwesomeIcon 
-            icon={faChevronDown}
-            className={`${styles.headerIcon} ${context.isOpen ? styles.rotate : ''}`} 
-        />
+        <svg xmlns="http://www.w3.org/2000/svg" className={`${styles.headerIcon} ${isOpen ? styles.rotate : ''}`} fill="currentColor" width={12} viewBox="0 0 512 512">{`<!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->`}<path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
     </button>
   );
 }
@@ -151,13 +130,15 @@ function AccordionBody({ className, children, style }: AccordionBodyProps) {
     const context = useContext(AccordionItemContext);
     if (!context) throw new Error("AccordionBody must be a child of an AccordionItem");
 
+    const { id, isOpen } = context;
+
     return (
         <div 
             style={style}
-            className={`${className ?? styles.accordionBody} ${context.isOpen ? styles.show : ''}`}
+            className={`${className ?? styles.accordionBody} ${isOpen ? styles.show : ''}`}
             role="region"
-            aria-labelledby={context.id}
-            aria-hidden={!context.isOpen}
+            aria-labelledby={id}
+            aria-hidden={!isOpen}
         >
             <div className={styles.accordionBodyText}>
                 {children}
