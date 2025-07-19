@@ -1,22 +1,8 @@
 import { useState } from 'react'
-import { 
-    Accordion, 
-    AccordionBody, 
-    AccordionHeader, 
-    AccordionItem 
-} from './components/accordion'
-
-import { 
-    Toast, 
-    ToastContent 
-} from './components/toast'
-
-import { 
-    TooltipPopup, 
-    Tooltip 
-} from './components/tooltip';
-
 import "./styles.css"
+import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from './components/accordion'
+import { Toast, ToastContent } from './components/toast'
+import { TooltipPopup, Tooltip } from './components/tooltip';
 import { Select, SelectItem } from './components/select/Select';
 import { Dialog, DialogCloseButton, DialogWrapper } from './components/dialog/Dialog';
 
@@ -45,6 +31,16 @@ export default function App() {
         }
     ]
 
+    function handleCloseDialog() {
+        setShowDialog(false)
+        console.log("closed dialog")
+    }
+
+    function handleCloseToast() {
+        setShowToast(false)
+        console.log("closed toast")
+    }
+
     return (
         <div>
             <h1>React-UI</h1>
@@ -61,7 +57,7 @@ export default function App() {
             </Accordion>
 
             <Dialog 
-                onClose={() => setShowDialog(false)} 
+                onClose={handleCloseDialog} 
                 showDialog={showDialog}
             >
                 <DialogWrapper>
@@ -81,7 +77,7 @@ export default function App() {
             </Dialog>
 
             <Toast
-                onClose={() => setShowToast(false)}
+                onClose={handleCloseToast}
                 position='top-right' 
                 timeoutDuration={5000} 
                 showToast={showToast} 

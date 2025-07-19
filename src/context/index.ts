@@ -15,9 +15,8 @@ const SelectContext = createContext<{
 /*-------- Toast Context --------*/
 
 const ToastContext = createContext<{
+    showToast: boolean;
     timeoutDuration: number;
-    show: boolean;
-    setShow: React.Dispatch<React.SetStateAction<boolean>>;
     progressBar: boolean;
     onClose: () => void;
 } | null>(null);
@@ -49,12 +48,10 @@ const AccordionItemContext = createContext<{
 
 const DialogContext = createContext<{
     onClose: () => void;
-    setShow: React.Dispatch<React.SetStateAction<boolean>>;
 } | null>(null);
 
 const DialogWrapperContext = createContext<{
     onClose: () => void;
-    setShow: React.Dispatch<React.SetStateAction<boolean>>;
 } | null>(null);
 
 export {

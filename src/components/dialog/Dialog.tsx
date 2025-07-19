@@ -1,19 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 import styles from "./dialog.module.css";
 import type { DialogButtonProps, DialogProps, DialogWrapperProps } from "../../types";
 import { DialogContext, DialogWrapperContext } from "../../context";
 
 function Dialog({ className, children, style, showDialog, onClose }: DialogProps) {
-    const [show, setShow] = useState(showDialog);
     const ref = useRef<HTMLDivElement>(null);
-
-    // Listen for show Dialog updates from parent components
-    useEffect(() => {
-        setShow(showDialog);
-        if (!showDialog) {
-            onClose();
-        }
-    },[showDialog])
 
     function handleOnBlur(e: React.MouseEvent<HTMLDivElement>) {
         // Because dialog component uses inset 0 it fills the entire page
@@ -23,9 +14,9 @@ function Dialog({ className, children, style, showDialog, onClose }: DialogProps
         }
     }
     
-    if (show) {
+    if (showDialog) {
         return (
-            <DialogContext.Provider value={{ onClose, setShow }}>
+            <DialogContext.Provider value={{ onClose }}>
                 <div
                     ref={ref}
                     style={style}
@@ -43,10 +34,10 @@ function DialogWrapper({ children, className, style }: DialogWrapperProps) {
     const context = useContext(DialogContext);
     if (!context) throw new Error("DialogWrapper must be a child of Dialog component")
 
-    const { onClose, setShow } = context;
+    const { onClose } = context;
 
     return (
-        <DialogWrapperContext.Provider value={{ onClose, setShow }}>
+        <DialogWrapperContext.Provider value={{ onClose }}>
             <div 
                 style={style}
                 className={className ?? styles.dialogWrapper}
@@ -61,10 +52,9 @@ function DialogCloseButton({ className, style }: DialogButtonProps) {
     const context = useContext(DialogWrapperContext);
     if (!context) throw new Error("DialogCloseButton must be a child of DialogWrapper component");
 
-    const { onClose, setShow } = context;
+    const { onClose } = context;
 
     function handleCloseDialog() {
-        setShow(false);
         onClose();
     }
 
