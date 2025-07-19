@@ -19,20 +19,24 @@ import {
 
 import "./styles.css"
 import { Select, SelectItem } from './components/select/Select';
-import { Dialog } from './components/dialog/Dialog';
+import { Dialog, DialogCloseButton, DialogWrapper } from './components/dialog/Dialog';
 
 export default function App() {
-    const [isOpen, setIsOpen] = useState(true);
+    const [showToast, setShowToast] = useState(true);
+    const [showDialog, setShowDialog] = useState(true);
     const data = [
         {
+            id: '1',
             name: 'Section 1',
             content: 'Content for section 1'
         },
         {
+            id: '2',
             name: 'Section 2',
             content: 'Content for section 2'
         },
         {
+            id: '3',
             name: 'Section 3',
             content: 
                 `Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate 
@@ -42,42 +46,46 @@ export default function App() {
         }
     ]
 
-    function showToast() {
-        setIsOpen(!isOpen)
-    }
-
     return (
         <div>
-            <h1>Hello world</h1>
-            <button onClick={showToast}>Show/Hide Toast</button>
+            <h1>React-UI</h1>
+            <button onClick={() => setShowToast(!showToast)}>Show/Hide Toast</button>
+            <button onClick={() => setShowDialog(!showDialog)}>Show/Hide Dialog</button>
 
             <Accordion mode='single'>
                 {data.map(x => (
-                    <AccordionItem key={x.name}>
+                    <AccordionItem key={x.id}>
                         <AccordionHeader>{x.name}</AccordionHeader>
                         <AccordionBody>{x.content}</AccordionBody>
                     </AccordionItem>
                 ))}
             </Accordion>
 
-            <Dialog onClose={() => setIsOpen(false)} showDialog={isOpen}>
-                <div style={{
-                    display: 'grid',
-                    gap: '1rem',
-                    padding: '2rem',
-                    background: "#1b191a",
-                    border: "1px solid #4e4549",
-                    color: 'white'
-                }}>
-                    Dialog Content
-                    <button onClick={showToast}>Click me</button>
-                </div>
+            <Dialog 
+                onClose={() => setShowDialog(false)} 
+                showDialog={showDialog}
+            >
+                <DialogWrapper>
+                    <DialogCloseButton />
+                    <div style={{
+                        display: 'grid',
+                        gap: '1rem',
+                        padding: '2rem',
+                        background: "#1b191a",
+                        border: "1px solid #4e4549",
+                        color: 'white'
+                    }}>
+                        Dialog Content
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad ab vel numquam deleniti sed mollitia quisquam cum error vero nesciunt nam eos vitae explicabo incidunt, omnis enim aliquam quo. Culpa!
+                    </div>
+                </DialogWrapper>
             </Dialog>
 
             <Toast
+                onClose={() => setShowToast(false)}
                 position='top-right' 
-                durationMS={5000} 
-                showToast={isOpen} 
+                timeoutDuration={5000} 
+                showToast={showToast} 
                 progressBar={true}
             >
                 <ToastItem>
