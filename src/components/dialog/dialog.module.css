@@ -4,7 +4,7 @@
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
     overflow: hidden;
-
+    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,6 +12,9 @@
 
 .dialogWrapper {
     position: relative;
+    width: 100%;
+    max-width: 600px;
+    min-width: 300px;
 }
 
 .dialogBtn {
