@@ -6,10 +6,6 @@
     color: white;
     border-radius: 5px;
     width: 300px;
-
-    pointer-events: none;
-    opacity: 0;
-    transition: 200ms ease-in-out;
 }
 .toast:hover {
     background-color: #2e282b;
@@ -39,10 +35,14 @@
     bottom: 3px;
     height: 3px;
     background-color: #e76aa9;
-    transition: width 40ms ease-in-out;
+    animation: progress var(--duration) linear forwards;
 }
 
-.show {
-    pointer-events: all;
-    opacity: 1;
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }
