@@ -2,5 +2,6 @@
 
 export {
     Dialog,
-    DialogWrapper
+    DialogWrapper,
+    DialogCloseButton
 } from "./Dialog"
