@@ -58,16 +58,20 @@ type ToastProps = {
     className?: string;
     style?: React.CSSProperties;
     children: ReactNode;
+    /**
+     * Window absolute position of the toast
+    */
     position: "none" | "top-left" | "top-right" | "bottom-left" | "bottom-right" | "top-center" | "bottom-center";
     /**
-     * Duration in milliseconds
+     * Time before toast auto-hides in milliseconds
     */
-    durationMS: number;
+    timeoutDuration: number;
     showToast: boolean;
     /**
      * Show a visual progress bar, which displays the Toast auto-hide timeout
     */
     progressBar: boolean;
+    onClose: () => void;
 }
 
 type ToastItemProps = {
@@ -81,8 +85,14 @@ type SelectProps = {
     className?: string;
     children: ReactNode;
     id: string;
+    /**
+     * Inital label shown on dropdown before selection
+    */
     label: string;
     defaultValue?: string | number;
+    /**
+     * Returns value of the selected option onchange
+    */
     onChange: (value: string) => void;
 }
 
@@ -99,12 +109,19 @@ type DialogProps = {
     children: ReactNode;
     style?: React.CSSProperties;
     showDialog: boolean;
+    /**
+     * Runs when the dialog has been closed
+    */
     onClose: () => void;
 };
 
 type DialogWrapperProps = {
     children: ReactNode;
 };
+
+type DialogButtonProps = {
+    className?: string;
+}
 
 export type {
     AccordionProps,
@@ -118,5 +135,6 @@ export type {
     SelectProps,
     SelectItemProps,
     DialogProps,
-    DialogWrapperProps
+    DialogWrapperProps,
+    DialogButtonProps
 }
