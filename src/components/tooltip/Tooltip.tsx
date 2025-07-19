@@ -1,14 +1,10 @@
-import { createContext, useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import styles from "./tooltip.module.css"
 import type { 
     TooltipPopupProps, 
     TooltipProps 
 } from "../../types";
-
-const TooltipContext = createContext<{
-    elementSize: { width: number, height: number };
-    ref: React.RefObject<HTMLDivElement | null>
-} | null>(null);
+import { TooltipContext } from "../../context";
 
 function TooltipWrap({ className, children, style }: TooltipProps) {
     const elementSize = { width: 0, height: 0 };
@@ -41,19 +37,20 @@ function TooltipWrap({ className, children, style }: TooltipProps) {
 
 function TooltipPopup({ className, style, content, position, marginOffset }: TooltipPopupProps) {
     const context = useContext(TooltipContext);
+    if (!context) throw new Error("TooltipPopup must be a child of TooltipWrap")
+
+    const { ref, elementSize } = context;
 
     useEffect(() => {
-        if (!context) return 
-
         // 8px for height of the css triangle
-        const height = context.elementSize.height + 8 - (marginOffset ?? 0);
+        const height = elementSize.height + 8 - (marginOffset ?? 0);
 
         if (position === "top-center") {
-            context?.ref.current?.style
+            ref.current?.style
                 .setProperty('--bottom', `${height}px`);
         }
         if (position === "bottom-center") {
-            context?.ref.current?.style
+            ref.current?.style
                 .setProperty('--top', `${height}px`);
         }
     },[])
