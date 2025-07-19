@@ -1,6 +1,6 @@
 'use client'
 
 export {
-    TooltipWrap,
+    Tooltip,
     TooltipPopup
 } from "./Tooltip"

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./toast.module.css"
-import type { ToastItemProps, ToastProps } from "../../types";
+import type { ToastContentProps, ToastProps } from "../../types";
 import { ToastContext } from "../../context";
 
 const positionStylesMap = {
@@ -48,7 +48,7 @@ function Toast({ className, style, children, position, timeoutDuration, showToas
 
 //--------------------------------------------------------------------//
 
-function ToastItem({ className, children }: ToastItemProps) {
+function ToastContent({ className, children }: ToastContentProps) {
     const context = useContext(ToastContext);
     if (!context) throw new Error("Missing context provider");
 
@@ -124,5 +124,5 @@ function ProgressBar() {
 
 export {
     Toast,
-    ToastItem,
+    ToastContent,
 };

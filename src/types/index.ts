@@ -1,10 +1,15 @@
 import type { ReactNode } from "react";
+import type { DialogWrapper } from "../components/dialog";
+import type { AccordionBody, AccordionHeader, AccordionItem } from "../components/accordion";
+import type { SelectItem } from "../components/select";
+import type { ToastContent } from "../components/toast";
 
 /*-------- Accordion Types --------*/
 
 type AccordionProps = {
     className?: string;
-    children: ReactNode;
+    /* Must have accordionItems as children only */
+    children: React.ReactElement<typeof AccordionItem>[] | React.ReactElement<typeof AccordionItem>;
     style?: React.CSSProperties;
     /**
      * Controls how many items can be open at once:
@@ -16,7 +21,10 @@ type AccordionProps = {
 
 type AccordionItemProps = {
     className?: string;
-    children: ReactNode;
+    /* Must have accordionHeader & accordionBody as children */
+    children: 
+        [React.ReactElement<typeof AccordionHeader>, 
+         React.ReactElement<typeof AccordionBody>];
     style?: React.CSSProperties;
 };
 
@@ -57,7 +65,7 @@ type TooltipPopupProps = {
 type ToastProps = {
     className?: string;
     style?: React.CSSProperties;
-    children: ReactNode;
+    children: React.ReactElement<typeof ToastContent>;
     /**
      * Window absolute position of the toast
     */
@@ -74,7 +82,7 @@ type ToastProps = {
     onClose: () => void;
 }
 
-type ToastItemProps = {
+type ToastContentProps = {
     className?: string;
     children: ReactNode
 }
@@ -83,7 +91,8 @@ type ToastItemProps = {
 
 type SelectProps = {
     className?: string;
-    children: ReactNode;
+    /* Must have SelectItems as children */
+    children: React.ReactElement<typeof SelectItem>[] | React.ReactElement<typeof SelectItem>;
     id: string;
     /**
      * Inital label shown on dropdown before selection
@@ -106,7 +115,7 @@ type SelectItemProps = {
 
 type DialogProps = {
     className?: string;
-    children: ReactNode;
+    children: React.ReactElement<typeof DialogWrapper>;
     style?: React.CSSProperties;
     showDialog: boolean;
     /**
@@ -116,7 +125,7 @@ type DialogProps = {
 };
 
 type DialogWrapperProps = {
-    children: ReactNode;
+    children: ReactNode
 };
 
 type DialogButtonProps = {
@@ -131,7 +140,7 @@ export type {
     TooltipProps,
     TooltipPopupProps,
     ToastProps,
-    ToastItemProps,
+    ToastContentProps,
     SelectProps,
     SelectItemProps,
     DialogProps,

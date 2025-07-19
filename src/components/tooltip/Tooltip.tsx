@@ -6,7 +6,7 @@ import type {
 } from "../../types";
 import { TooltipContext } from "../../context";
 
-function TooltipWrap({ className, children, style }: TooltipProps) {
+function Tooltip({ className, children, style }: TooltipProps) {
     const elementSize = { width: 0, height: 0 };
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -37,7 +37,7 @@ function TooltipWrap({ className, children, style }: TooltipProps) {
 
 function TooltipPopup({ className, style, content, position, marginOffset }: TooltipPopupProps) {
     const context = useContext(TooltipContext);
-    if (!context) throw new Error("TooltipPopup must be a child of TooltipWrap")
+    if (!context) throw new Error("TooltipPopup must be a child of Tooltip")
 
     const { ref, elementSize } = context;
 
@@ -71,6 +71,6 @@ function TooltipPopup({ className, style, content, position, marginOffset }: Too
 }
 
 export {
-    TooltipWrap,
+    Tooltip,
     TooltipPopup
 };

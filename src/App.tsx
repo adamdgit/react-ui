@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-
+import { useState } from 'react'
 import { 
     Accordion, 
     AccordionBody, 
@@ -9,12 +8,12 @@ import {
 
 import { 
     Toast, 
-    ToastItem 
+    ToastContent 
 } from './components/toast'
 
 import { 
     TooltipPopup, 
-    TooltipWrap 
+    Tooltip 
 } from './components/tooltip';
 
 import "./styles.css"
@@ -88,21 +87,21 @@ export default function App() {
                 showToast={showToast} 
                 progressBar={true}
             >
-                <ToastItem>
+                <ToastContent>
                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                         This is a toast!
                     </div>
-                </ToastItem>
+                </ToastContent>
             </Toast>
 
-            <TooltipWrap style={{margin: "20px"}}>
+            <Tooltip style={{margin: "20px"}}>
                 <button style={{padding: '.5rem 1rem', background: "#3f383b", color: "#fff", borderRadius: "5px"}}>Add</button>
                 <TooltipPopup
                     content='Add to cart'
                     position='bottom-center'
                 >
                 </TooltipPopup>
-            </TooltipWrap>
+            </Tooltip>
 
             <form>
                 <Select
