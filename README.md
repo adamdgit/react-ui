@@ -17,7 +17,7 @@ Created By Adam Demol.
 
 ## Installation
 
-... coming eventually
+git clone https://github.com/adamdgit/react-ui
 
 ## Components
 
@@ -25,42 +25,74 @@ Created By Adam Demol.
  - Toast
  - Tooltip
  - Dropdown Select
- - Dialog with backdrop (WIP)
+ - Dialog with backdrop
+ - Calendar (WIP)
  - Rating (coming soon)
  - Tablist (coming soon)
  - Popover (coming soon)
  - Comparison List (coming soon)
 
-## Usage
+## Usage Examples
 
-Example using the Accordion component!
+### Accordion
 
 ```tsx
-import {
-   Accordion,  
-   AccordionItem,
-   AccordionHeader,
-   AccordionBody
-} from "atom-ui";
-
 function App() {
-  return (
-    <Accordion mode='single'>
-        <AccordionItem>
-            <AccordionHeader>Section 1</AccordionHeader>
-            <AccordionBody>Content for section 1</AccordionBody>
-        </AccordionItem>
+    return (
+        <Accordion mode='single'>
+            {data.map(x => (
+                <AccordionItem key={x.id}>
+                    <AccordionHeader>{x.name}</AccordionHeader>
+                    <AccordionBody>{x.content}</AccordionBody>
+                </AccordionItem>
+            ))}
+        </Accordion>
+    );
+}
+```
 
-        <AccordionItem>
-            <AccordionHeader>Section 2</AccordionHeader>
-            <AccordionBody>Content for section 2</AccordionBody>
-        </AccordionItem>
+### Toast
 
-        <AccordionItem>
-            <AccordionHeader>Section 3</AccordionHeader>
-            <AccordionBody>Content for section 3</AccordionBody>
-        </AccordionItem>
-    </Accordion>
-  );
+```tsx
+function App() {
+    const [showToast, setShowToast] = useState(false);
+
+    const handleCloseToast = () => {
+        setShowToast(false);
+    };
+
+    return (
+        <Toast
+            onClose={handleCloseToast}
+            position='top-right' 
+            timeoutDuration={5000} 
+            showToast={showToast} 
+            progressBar={true}
+        >
+            <ToastContent>
+                <div>Custom toast content goes here</div>
+            </ToastContent>
+        </Toast>
+    );
+}
+```
+
+### Select
+
+```tsx
+function App() {
+    return (
+        <form>
+            <Select
+                id='select1'
+                label='Year'
+                onChange={(value) => console.log('changed', value)}
+            >
+                <SelectItem value={2012}>2012</SelectItem>
+                <SelectItem value={2013}>2013</SelectItem>
+                <SelectItem value={2014}>2014</SelectItem>
+            </Select>
+        </form>
+    );
 }
 ```
