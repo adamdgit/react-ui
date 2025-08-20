@@ -3,12 +3,15 @@ import "./styles.css"
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from './components/accordion'
 import { Toast, ToastContent } from './components/toast'
 import { TooltipPopup, Tooltip } from './components/tooltip';
-import { Select, SelectItem } from './components/select/Select';
+import { Select, SelectItem, SelectList } from './components/select/Select';
 import { Dialog, DialogCloseButton, DialogWrapper } from './components/dialog/Dialog';
+import { Calendar } from './components/calendar';
 
 export default function App() {
     const [showToast, setShowToast] = useState(true);
     const [showDialog, setShowDialog] = useState(true);
+    const [year, setYear] = useState(2013);
+
     const data = [
         {
             id: '1',
@@ -55,6 +58,15 @@ export default function App() {
                     </AccordionItem>
                 ))}
             </Accordion>
+
+            <Calendar
+                showChangeMonthButtons={true}
+                mode='single'
+                onClose={() => console.log("closed")}
+                onSelectDay={(val) => console.log(val)}
+                onSelectMonth={(val) => console.log(val)}
+                onSelectYear={(val) => console.log(val)}
+            />
 
             <Dialog 
                 onClose={handleCloseDialog} 
@@ -103,11 +115,13 @@ export default function App() {
                 <Select
                     id='select1'
                     label='Year'
-                    onChange={(value) => console.log('changed', value)}
+                    onChange={(value) => setYear(Number(value))}
                 >
-                    <SelectItem value={2012}>2012</SelectItem>
-                    <SelectItem value={2013}>2013</SelectItem>
-                    <SelectItem value={2014}>2014</SelectItem>
+                    <SelectList>
+                        <SelectItem value={2012}>2012</SelectItem>
+                        <SelectItem value={2013}>2013</SelectItem>
+                        <SelectItem value={2014}>2014</SelectItem>
+                    </SelectList>
                 </Select>
             </form>
         </div>
