@@ -1,7 +1,7 @@
 # Atom-UI
 Created By Adam Demol. 
 
-**Atom-UI** is a project for React & Typescript as a component library. It aims to be simple, lightweight, with no external dependencies and fully accessible. 
+**Atom-UI** is a component library for React using Typescript. It aims to be simple, lightweight, customisable, and fully accessible. 
 
 ---
 
