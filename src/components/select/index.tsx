@@ -2,5 +2,6 @@
 
 export {
     Select,
+    SelectList,
     SelectItem
 } from "./Select"
