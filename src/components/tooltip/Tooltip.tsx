@@ -6,6 +6,8 @@ import type {
 } from "../../types";
 import { TooltipContext } from "../../context";
 
+//--------------------------------------------------------------------//
+
 function Tooltip({ className, children, style }: TooltipProps) {
     const elementSize = { width: 0, height: 0 };
     const ref = useRef<HTMLDivElement | null>(null);
