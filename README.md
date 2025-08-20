@@ -38,9 +38,27 @@ git clone https://github.com/adamdgit/react-ui
 
 ```tsx
 function App() {
+    const accordionData = [
+        {
+            id: '1',
+            name: 'Section 1',
+            content: 'Content for accordion item 1'
+        },
+        {
+            id: '2',
+            name: 'Section 2',
+            content: 'Content for accordion item 2'
+        },
+        {
+            id: '3',
+            name: 'Section 3',
+            content: `Content for accordion item 3`
+        }
+    ]
+
     return (
         <Accordion mode='single'>
-            {data.map(x => (
+            {accordionData.map(x => (
                 <AccordionItem key={x.id}>
                     <AccordionHeader>{x.name}</AccordionHeader>
                     <AccordionBody>{x.content}</AccordionBody>
@@ -93,6 +111,39 @@ function App() {
                 <SelectItem value={2014}>2014</SelectItem>
             </Select>
         </form>
+    );
+}
+```
+
+### Dialog
+
+```tsx
+function App() {
+    const [showDialog, setShowDialog] = useState(false);
+
+    const handleCloseDialog = () => {
+        setShowDialog(false);
+    };
+
+    return (
+        <Dialog 
+            onClose={handleCloseDialog} 
+            showDialog={showDialog}
+        >
+            <DialogWrapper>
+                <DialogCloseButton />
+                <div style={{
+                    display: 'grid',
+                    gap: '1rem',
+                    padding: '2rem',
+                    background: "#1b191a",
+                    border: "1px solid #4e4549",
+                    color: 'white'
+                }}>
+                    Dialog content goes here, you can put anything here
+                </div>
+            </DialogWrapper>
+        </Dialog>
     );
 }
 ```
