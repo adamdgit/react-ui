@@ -3,17 +3,19 @@ import styles from "./toast.module.css"
 import type { ToastContentProps, ToastProps } from "../../types";
 import { ToastContext } from "../../context";
 
-const positionStylesMap = {
-    "none":          {},
-    "top-left":      { top: "2rem", left: "2rem" },
-    "top-right":     { top: "2rem", right: "2rem" },
-    "bottom-left":   { bottom: "2rem", left: "2rem" },
-    "bottom-right":  { bottom: "2rem", right: "2rem" },
-    "top-center":    { top: "2rem", left: "50%", transform: "translateX(-50%)" },
-    "bottom-center": { bottom: "2rem", left: "50%", transform: "translateX(-50%)" },
-}
+//--------------------------------------------------------------------//
 
 function Toast({ className, style, children, position, timeoutDuration, showToast, progressBar, onClose }: ToastProps) { 
+    const positionStylesMap = {
+        "none":          {},
+        "top-left":      { top: "2rem", left: "2rem" },
+        "top-right":     { top: "2rem", right: "2rem" },
+        "bottom-left":   { bottom: "2rem", left: "2rem" },
+        "bottom-right":  { bottom: "2rem", right: "2rem" },
+        "top-center":    { top: "2rem", left: "50%", transform: "translateX(-50%)" },
+        "bottom-center": { bottom: "2rem", left: "50%", transform: "translateX(-50%)" },
+    }
+    
     // add position styles to the provided styles
     const styleOverride: React.CSSProperties = {
         ...style,
