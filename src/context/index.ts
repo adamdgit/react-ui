@@ -3,13 +3,15 @@ import { createContext } from "react";
 /*-------- Select Context --------*/
 
 const SelectContext = createContext<{
+    id: string;
     listItems: (HTMLLIElement | HTMLDivElement)[];
     setListItems: React.Dispatch<React.SetStateAction<(HTMLLIElement | HTMLDivElement)[]>>;
     inputRef: React.RefObject<HTMLInputElement | null>;
     onChange: (value: string) => void;
-    setSelected: React.Dispatch<React.SetStateAction<string>>;
     showList: boolean;
     setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+    isControlled: boolean;
+    setInternalVal: React.Dispatch<React.SetStateAction<string | number>>;
 } | null>(null);
 
 /*-------- Toast Context --------*/
@@ -54,6 +56,15 @@ const DialogWrapperContext = createContext<{
     onClose: () => void;
 } | null>(null);
 
+/*-------- Calendar Context --------*/
+
+const CalendarContext = createContext<{
+    onClose: () => void;
+    onSelectYear: (value: string) => void;
+    onSelectMonth: (value: string) => void;
+    onSelectDay: (value: string) => void;
+}| null>(null);
+
 export {
     SelectContext,
     ToastContext,
@@ -61,5 +72,6 @@ export {
     AccordionContext,
     AccordionItemContext,
     DialogContext,
-    DialogWrapperContext
+    DialogWrapperContext,
+    CalendarContext
 }
