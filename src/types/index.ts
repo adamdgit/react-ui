@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 import type { DialogWrapper } from "../components/dialog";
 import type { AccordionBody, AccordionHeader, AccordionItem } from "../components/accordion";
-import type { SelectItem } from "../components/select";
+import type { SelectItem, SelectList } from "../components/select";
 import type { ToastContent } from "../components/toast";
+import type React from "react";
 
 /*-------- Accordion Types --------*/
 
@@ -90,26 +91,40 @@ type ToastContentProps = {
 /*-------- Select Types --------*/
 
 type SelectProps = {
-    className?: string;
+    /**
+     * If value is provided the parent will manage this select component state
+     * Otherwise it will handle its own internal state
+    */
+    value?: number | string;
+    classMap?: {
+        show?: string;
+        selectInput?: string;
+        selectDropdown?: string;
+    };
     /* Must have SelectItems as children */
-    children: React.ReactElement<typeof SelectItem>[] | React.ReactElement<typeof SelectItem>;
+    children: React.ReactElement<typeof SelectList>;
     id: string;
     /**
      * Inital label shown on dropdown before selection
     */
     label: string;
-    defaultValue?: string | number;
     /**
      * Returns value of the selected option onchange
     */
     onChange: (value: string) => void;
-}
+} & React.ComponentProps<'div'>
+
+type SelectListProps = {
+    className?: string;
+    style?: React.CSSProperties;
+    children?: React.ReactElement<typeof SelectItem>[] | React.ReactElement<typeof SelectItem>;
+} & React.ComponentProps<'ul'>
 
 type SelectItemProps = {
     className?: string;
     children: ReactNode;
     value: string | number;
-}
+} & React.ComponentProps<'li'>
 
 /*-------- Dialog Types --------*/
 
@@ -135,6 +150,57 @@ type DialogButtonProps = {
     style?: React.CSSProperties;
 }
 
+/*-------- Calendar Types --------*/
+
+type CalendarProps = {
+    classMap?: {
+        calendarWrap?: string;
+        calendarHeader?: string;
+        headerWrap?: string;
+        changeMonthBtn?: string;
+        calendarBody?: string;
+        yearDropdown?: string;
+        yearInput?: string;
+        yearInputOpt?: string;
+        monthDropdown?: string;
+        monthInput?: string;
+        monthInputOpt?: string;
+        dayLabelsWrap?: string;
+        dayLabel?: string;
+    };
+    styleMap?: {
+        calendarWrap?: React.CSSProperties;
+        calendarHeader?: React.CSSProperties;
+        calendarBody?: React.CSSProperties;
+        yearSelect?: React.CSSProperties;
+        monthSelect?: React.CSSProperties;
+    }
+    /**
+     * Show or hide previous and next month buttons in calendar header
+    */
+    showChangeMonthButtons: boolean;
+    /**
+     * Select a single date only or create a range between 2 selected dates
+    */
+    mode: "single" | "range";
+    /**
+     * Defaults to current year + 15 more.
+     * Provide an array of years as numbers to override
+     * eg: [2012, 2013, 2014]
+    */
+    yearDropdownData?: number[];
+    onClose: () => void;
+    onSelectDay: (val: Date) => void;
+    onSelectMonth: (val: number) => void;
+    onSelectYear: (val: number) => void;
+};
+
+type DaySelectProps = {
+    day: Date;
+    month:  number;
+    onSelectDay: (val: Date) => void;
+}
+
 export type {
     AccordionProps,
     AccordionItemProps,
@@ -145,8 +211,11 @@ export type {
     ToastProps,
     ToastContentProps,
     SelectProps,
+    SelectListProps,
     SelectItemProps,
     DialogProps,
     DialogWrapperProps,
-    DialogButtonProps
+    DialogButtonProps,
+    CalendarProps,
+    DaySelectProps
 }
