@@ -3,6 +3,8 @@ import styles from "./dialog.module.css";
 import type { DialogButtonProps, DialogProps, DialogWrapperProps } from "../../types";
 import { DialogContext, DialogWrapperContext } from "../../context";
 
+//--------------------------------------------------------------------//
+
 function Dialog({ className, children, style, showDialog, onClose }: DialogProps) {
     const ref = useRef<HTMLDivElement>(null);
 
@@ -30,6 +32,8 @@ function Dialog({ className, children, style, showDialog, onClose }: DialogProps
     }
 };
 
+//--------------------------------------------------------------------//
+
 function DialogWrapper({ children, className, style }: DialogWrapperProps) {
     const context = useContext(DialogContext);
     if (!context) throw new Error("DialogWrapper must be a child of Dialog component")
@@ -47,6 +51,8 @@ function DialogWrapper({ children, className, style }: DialogWrapperProps) {
         </DialogWrapperContext.Provider>
     )
 };
+
+//--------------------------------------------------------------------//
 
 function DialogCloseButton({ className, style }: DialogButtonProps) {
     const context = useContext(DialogWrapperContext);
