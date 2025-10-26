@@ -152,6 +152,7 @@ function SelectItem({ className, children, value, ...props }: SelectItemProps) {
         inputRef.current.value = targetValue;
 
         onChange(targetValue);
+
         if (!isControlled) {
             setInternalVal(targetValue);
         }
