@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 import styles from "./dialog.module.css";
-import type { DialogButtonProps, DialogProps, DialogWrapperProps } from "../../types";
-import { DialogContext, DialogWrapperContext } from "../../context";
+import type { DialogButtonProps, DialogContentProps, DialogProps } from "../../types";
+import { DialogContext } from "../../context";
 
 //--------------------------------------------------------------------//
 
@@ -34,28 +34,21 @@ function Dialog({ className, children, style, showDialog, onClose }: DialogProps
 
 //--------------------------------------------------------------------//
 
-function DialogWrapper({ children, className, style }: DialogWrapperProps) {
-    const context = useContext(DialogContext);
-    if (!context) throw new Error("DialogWrapper must be a child of Dialog component")
-
-    const { onClose } = context;
-
+function DialogContent({ className, style, children }: DialogContentProps) {
     return (
-        <DialogWrapperContext.Provider value={{ onClose }}>
-            <div 
-                style={style}
-                className={className ?? styles.dialogWrapper}
-            >
-                {children}
-            </div>
-        </DialogWrapperContext.Provider>
+        <div
+            style={style}
+            className={className ?? styles.dialogContent}
+        >
+            {children}
+        </div>  
     )
 };
 
 //--------------------------------------------------------------------//
 
 function DialogCloseButton({ className, style }: DialogButtonProps) {
-    const context = useContext(DialogWrapperContext);
+    const context = useContext(DialogContext);
     if (!context) throw new Error("DialogCloseButton must be a child of DialogWrapper component");
 
     const { onClose } = context;
@@ -77,6 +70,6 @@ function DialogCloseButton({ className, style }: DialogButtonProps) {
 
 export {
     Dialog,
-    DialogWrapper,
+    DialogContent,
     DialogCloseButton
 }
