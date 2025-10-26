@@ -3,6 +3,19 @@
   line-height: 1.5;
   font-size: 16px;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  --colour1: #fff;
+  --colour2: #ccc;
+  --colour3: #f7f7f7;
+  --colour4: #111;
+  --colour5: #232323;
+  --transparent: rgba(0, 0, 0, 0.7);
+  --textcolour: #111;
+  --textcolour2: #999;
+  --accentcolour: #3e82ff;
+  --accentcolour2: #245ec9; 
+  --shadow: 0 4px 12px 2px #ededed;
+  --shadow2: 0 8px 12px 2px #ededed;
+  --border: 1px solid #ddd;
 }
 
 /*-----CSS RESETS-----*/
@@ -12,7 +25,26 @@ html { scroll-behavior: smooth; }
 button, input[type="submit"] { cursor: pointer; }
 
 body {
-  background-color: #1f1b1c;
-  color: #eee;
+  background-color: #fefefe;
+  color: #111;
   padding: 2rem;
+}
+
+.btn {
+  background: var(--accentcolour);
+  color: var(--colour1);
+  padding: 1rem 1.4rem;
+  border-radius: 6px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+.btn:hover {
+  background: var(--accentcolour2);
+}
+
+.container {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
 }
