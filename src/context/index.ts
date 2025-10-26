@@ -52,10 +52,6 @@ const DialogContext = createContext<{
     onClose: () => void;
 } | null>(null);
 
-const DialogWrapperContext = createContext<{
-    onClose: () => void;
-} | null>(null);
-
 /*-------- Calendar Context --------*/
 
 const CalendarContext = createContext<{
@@ -65,6 +61,14 @@ const CalendarContext = createContext<{
     onSelectDay: (value: string) => void;
 }| null>(null);
 
+/*-------- Rating Context --------*/
+
+const RatingContext = createContext<{
+    onChange: (value: number) => void;
+    ratingsList: HTMLButtonElement[];
+    setRatingsList: React.Dispatch<React.SetStateAction<HTMLButtonElement[]>>;
+} | null>(null)
+
 export {
     SelectContext,
     ToastContext,
@@ -72,6 +76,6 @@ export {
     AccordionContext,
     AccordionItemContext,
     DialogContext,
-    DialogWrapperContext,
-    CalendarContext
+    CalendarContext,
+    RatingContext
 }
