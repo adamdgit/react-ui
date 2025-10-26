@@ -1,9 +1,11 @@
 import type { ReactNode } from "react";
-import type { DialogWrapper } from "../components/dialog";
+import type { DialogCloseButton } from "../components/dialog";
 import type { AccordionBody, AccordionHeader, AccordionItem } from "../components/accordion";
 import type { SelectItem, SelectList } from "../components/select";
 import type { ToastContent } from "../components/toast";
 import type React from "react";
+import type { RatingItem } from "../components/rating";
+import type { DialogContent } from "../components/dialog/Dialog";
 
 /*-------- Accordion Types --------*/
 
@@ -130,7 +132,7 @@ type SelectItemProps = {
 
 type DialogProps = {
     className?: string;
-    children: React.ReactElement<typeof DialogWrapper>;
+    children: React.ReactElement<typeof DialogContent>;
     style?: React.CSSProperties;
     showDialog: boolean;
     /**
@@ -139,11 +141,14 @@ type DialogProps = {
     onClose: () => void;
 };
 
-type DialogWrapperProps = {
+type DialogContentProps = {
     className?: string;
-    children: ReactNode;
     style?: React.CSSProperties;
-};
+    children: [
+        React.ReactElement<typeof DialogCloseButton>, 
+        ReactNode
+    ];
+}
 
 type DialogButtonProps = {
     className?: string;
@@ -201,6 +206,25 @@ type DaySelectProps = {
     onSelectDay: (val: Date) => void;
 }
 
+/*-------- Rating Types --------*/
+
+type RatingProps = {
+    className?: string;
+    style?: React.CSSProperties;   
+    children: React.ReactElement<typeof RatingItem>[] | React.ReactElement<typeof RatingItem>;
+    onChange: (val: number) => void;
+}
+
+type RatingItemProps = {
+    className?: string;
+    style?: React.CSSProperties;   
+    /**
+     * Child should be an svg or image element, 
+     * which is the icon of the rating system, eg: star icon
+    */
+    icon: React.ReactElement<typeof SVGAElement> | React.ReactElement<typeof HTMLImageElement>;
+    value: number | string;
+}
 export type {
     AccordionProps,
     AccordionItemProps,
@@ -214,8 +238,10 @@ export type {
     SelectListProps,
     SelectItemProps,
     DialogProps,
-    DialogWrapperProps,
+    DialogContentProps,
     DialogButtonProps,
     CalendarProps,
-    DaySelectProps
+    DaySelectProps,
+    RatingProps,
+    RatingItemProps
 }
