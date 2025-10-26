@@ -1,9 +1,10 @@
 .accordion {
-    box-shadow: 0 4px 12px 2px #1b181a;
+    box-shadow: var(--shadow);
     border-radius: 1rem;
     width: fit-content;
     min-width: 200px;
     max-width: 500px;
+    height: fit-content;
 }
 
 .accordionItem {
@@ -16,19 +17,17 @@
     text-align: left;
     width: 100%;
     padding: 1rem;
-    background-color: #3f383b;
-    color: white;
+    background-color: var(--colour1);
     margin: 0;
-    border: 1px solid #4e4549;
 }
 .accordionHeader:hover {
-    background-color: #2e282b;
+    background-color: var(--accentcolour);
+    color: var(--colour1);
 }
 
 .accordionBody {
     pointer-events: none;
-    background-color: #5e5659;
-    color: white;
+    background-color: var(--colour3);
     padding: 0;
 
     display: grid;

@@ -1,0 +1,10 @@
+.rating {
+    display: flex;
+    list-style: none;
+}
+
+.ratingItem {
+    background: unset;
+    color: var(--colour5);
+    padding: .2rem;
+}

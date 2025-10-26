@@ -1,15 +1,14 @@
 .calendarWrap {
     display: grid;
     width: fit-content;
-    border: 1px solid #4e4549;
-    box-shadow: 0 4px 12px 2px #1b181a;
+    border: var(--border);
+    box-shadow: var(--shadow);
     color: white;
-    margin-block: 2rem;
-    background: #5e5659;
+    background: var(--colour3);
     border-radius: 6px;
 }
 .calendarHeader {
-    background: #3f383b;
+    background: var(--colour5);
 }
 .headerWrap {
     display: flex;
@@ -24,18 +23,18 @@
 .date {
     width: 50px;
     height: 50px;
-    background: #5e5659;
+    background: var(--colour3);
     border-radius: 6px;
-    color: white;
 }
 .date:hover {
-    background: #2e282b;
+    background: var(--accentcolour);
+    color: var(--colour1);
 }
 .today {
-    border: 3px solid #e76aa9;
+    border: 3px solid var(--accentcolour)
 }
 .notCurrentMonth {
-    color: #c4b7bd;
+    color: var(--textcolour2);
 }
 .yearInput, .monthInput {
     position: relative;
@@ -46,10 +45,12 @@
     padding: .4rem;
     width: fit-content;
     min-width: 120px;
-    background: #2e282b;
+    background: var(--colour4);
+    cursor: pointer;
+    border-radius: 6px;
 }
-.yearInput:hover, .monthInput:hover {
-    background: #1b181a;
+.yearInput:hover, .monthInput:hover, .yearInput:focus, .monthInput:focus {
+    background: var(--accentcolour);
 }
 .yearDropdown, .monthDropdown {
     pointer-events: none;
@@ -63,17 +64,18 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    border: 1px solid #4e4549;
-    background: #2e282b;
+    border: var(--border);
+    background: var(--colour5);
     width: 100%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
 }
 .yearInputOpt, .monthInputOpt {
     padding: 0.4rem .7rem;
     cursor: pointer;
 }
 .yearInputOpt:hover, .monthInputOpt:hover {
-    background: #1b181a;
+    background: var(--accentcolour);
+    color: var(--colour1);
 }
 
 .dayLabelsWrap {
@@ -92,10 +94,11 @@
     top: 100%;
 }
 .changeMonthBtn {
-    background-color: #2e282b;
+    background-color: var(--colour4);
     color: white;
     padding: .4rem .6rem;
+    border-radius: 6px;
 }
 .changeMonthBtn:hover {
-    background: #1b181a;
+    background: var(--accentcolour);
 }

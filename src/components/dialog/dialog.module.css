@@ -2,7 +2,7 @@
     z-index: 9999999;
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--transparent);
     overflow: hidden;
     
     display: flex;
@@ -17,18 +17,25 @@
     min-width: 300px;
 }
 
+.dialogContent {
+    position: relative;
+    width: 500px;
+    background: var(--colour1);
+    padding: 2rem;
+    border-radius: 6px;
+}
+
 .dialogBtn {
     position: absolute;
     top: -10px;
     right: -10px;
-    background: #1b191a;
-    border: 1px solid #4e4549;
+    background: var(--colour5);
+    color: var(--colour1);
     padding: .7rem;
     border-radius: 50%;
-    color: white;
     width: 40px;
     height: 40px;
 }
 .dialogBtn:hover {
-    background-color: #2e282b;
+    background: var(--accentcolour);
 }
