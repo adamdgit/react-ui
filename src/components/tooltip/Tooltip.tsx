@@ -44,18 +44,15 @@ function TooltipPopup({ className, style, content, position, marginOffset }: Too
     const { ref, elementSize } = context;
 
     useEffect(() => {
-        // 8px for height of the css triangle
-        const height = elementSize.height + 8 - (marginOffset ?? 0);
+        const cssTriangleHeight = 8;
+        const height = elementSize.height + cssTriangleHeight - (marginOffset ?? 0);
 
-        if (position === "top-center") {
-            ref.current?.style
-                .setProperty('--bottom', `${height}px`);
-        }
-        if (position === "bottom-center") {
-            ref.current?.style
-                .setProperty('--top', `${height}px`);
-        }
-    },[])
+        if (position === "top-center") 
+            ref.current?.style.setProperty('--bottom', `${height}px`);
+
+        if (position === "bottom-center") 
+            ref.current?.style.setProperty('--top', `${height}px`);
+    },[]);
 
     return (
         <div 
