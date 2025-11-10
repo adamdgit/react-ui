@@ -11,12 +11,13 @@ from "../../utils/calendarCalcs";
 
 //--------------------------------------------------------------------//
 
-function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData, onSelectDay, onSelectMonth, onSelectYear, cellSize, themeOverride }: CalendarProps) {
+function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData, onSelectDay, onSelectMonth, onSelectYear, dayLabelType, cellSize, themeOverride }: CalendarProps) {
     const [calendarYears] = useState(yearDropdownData ?? generateYearsDropdown);
     const [calendarMonths] = useState(generateMonthsDropdown);
     const [calendarData, setCalendarData] = useState<Date[]>([]);
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+    const [selectedDay, setSelectedDay] = useState(new Date());
 
     // Recalculate calendar days whenever month or year select is changed
     useEffect(() => {
@@ -69,25 +70,6 @@ function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData
                     >
                         {'<'}
                     </button>}
-                    <Select
-                        value={selectedYear}
-                        className={classMap?.yearInput ?? styles.yearInput}
-                        id='year'
-                        label='Year'
-                        onChange={(val) => handleSelectYear(Number(val))}
-                    >
-                        <SelectList className={classMap?.yearDropdown ?? styles.yearDropdown}>
-                            {calendarYears.map((year) => 
-                                <SelectItem 
-                                    className={classMap?.yearInputOpt ?? styles.yearInputOpt}
-                                    key={year} 
-                                    value={year}
-                                >
-                                    {year}
-                                </SelectItem>
-                            )}
-                        </SelectList>
-                    </Select>
 
                     <Select
                         value={calendarMonths[selectedMonth].month}
@@ -108,6 +90,27 @@ function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData
                             )}
                         </SelectList>
                     </Select>
+
+                    <Select
+                        value={selectedYear}
+                        className={classMap?.yearInput ?? styles.yearInput}
+                        id='year'
+                        label='Year'
+                        onChange={(val) => handleSelectYear(Number(val))}
+                    >
+                        <SelectList className={classMap?.yearDropdown ?? styles.yearDropdown}>
+                            {calendarYears.map((year) => 
+                                <SelectItem 
+                                    className={classMap?.yearInputOpt ?? styles.yearInputOpt}
+                                    key={year} 
+                                    value={year}
+                                >
+                                    {year}
+                                </SelectItem>
+                            )}
+                        </SelectList>
+                    </Select>
+
                     {showChangeMonthButtons && 
                     <button 
                         className={classMap?.changeMonthBtn ?? styles.changeMonthBtn}
@@ -118,13 +121,27 @@ function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData
                 </div>
 
                 <div className={classMap?.dayLabelsWrap ?? styles.dayLabelsWrap}>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Mon</div>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Tue</div>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Wed</div>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Thu</div>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Fri</div>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Sat</div>
-                    <div className={classMap?.dayLabel ?? styles.dayLabel}>Sun</div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "M" : "Mon"}
+                    </div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "T" : "Tue"}
+                    </div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "W" : "Wed"}
+                    </div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "T" : "Thu"}
+                    </div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "F" : "Fri"}
+                    </div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "S" : "Sat"}
+                    </div>
+                    <div className={classMap?.dayLabel ?? styles.dayLabel}>
+                        {dayLabelType === "Single" ? "S" : "Sun"}
+                    </div>
                 </div>
             </div>
 
@@ -137,6 +154,8 @@ function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData
                         month={Number(selectedMonth)}
                         onSelectDay={onSelectDay}
                         day={day}
+                        selectedDay={selectedDay}
+                        setSelectedDay={setSelectedDay}
                     />
                 )}
             </div>
@@ -146,7 +165,7 @@ function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData
 
 //--------------------------------------------------------------------//
 
-function DaySelect({ day, month, onSelectDay }: DaySelectProps) {
+function DaySelect({ day, month, onSelectDay, selectedDay, setSelectedDay }: DaySelectProps) {
     function dayIsToday(day: Date) {
         const today = new Date();
         return (
@@ -160,9 +179,17 @@ function DaySelect({ day, month, onSelectDay }: DaySelectProps) {
         return day.getMonth() === month
     }
 
+    // Passes selected day to parent via onSelectDay
+    // and highlights selected day using css inline styles
+    function handleSelectedDay() {
+        onSelectDay(day);
+        setSelectedDay(day);
+    }
+
     return (
         <button
-            onClick={() => onSelectDay(day)}
+            style={selectedDay === day ? {background : "var(--accentColor)"} : {}}
+            onClick={() => handleSelectedDay()}
             className={`${styles.date} ${
                 dayIsToday(day) ? styles.today :
                 !dayIsInCurrentMonth(day) ? styles.notCurrentMonth :
