@@ -214,9 +214,14 @@ type CalendarProps = {
     onSelectMonth: (val: number) => void;
     onSelectYear: (val: number) => void;
     /**
-     * Modify the calendar grid size (dates/days)
+     * Show single letter for day name or short name eg: M / Mon
+    */   
+    dayLabelType: "Single" | "Short";
+    /**
+     * Modify the calendar grid size (dates/days) 
+     * must be valid CSS width/height property value
     */
-    cellSize?: CSS.Property.Width | CSS.Property.Height;
+    cellSize?: CSS.Property.Width;
     themeOverride?: CSSThemeOverride;
 };
 
@@ -224,6 +229,8 @@ type DaySelectProps = {
     day: Date;
     month:  number;
     onSelectDay: (val: Date) => void;
+    selectedDay: Date;
+    setSelectedDay: (val: Date) => void;
 }
 
 /*-------- Rating Types --------*/
