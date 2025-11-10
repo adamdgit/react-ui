@@ -1,40 +1,42 @@
 .calendarWrap {
+    --cellSize: 50px;
     display: grid;
     width: fit-content;
     border: var(--border);
-    box-shadow: var(--shadow);
-    color: white;
-    background: var(--colour3);
+    box-shadow: var(--boxShadow);
+    color: var(--textColorPrimary);
     border-radius: 6px;
 }
 .calendarHeader {
-    background: var(--colour5);
+    background: var(--primaryColor);
 }
 .headerWrap {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    padding-block: .7rem;
+    padding-block: var(--padding);
 }
 .calendarBody {
     display: grid;
-    grid-template-columns: repeat(7, 50px);
+    grid-template-columns: repeat(7, var(--cellSize));
+    background: var(--secondaryColor);
 }
 .date {
-    width: 50px;
-    height: 50px;
-    background: var(--colour3);
+    width: var(--cellSize);
+    height: var(--cellSize);
     border-radius: 6px;
+    background: unset;
+    color: var(--textColorPrimary);
 }
 .date:hover {
-    background: var(--accentcolour);
-    color: var(--colour1);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }
 .today {
-    border: 3px solid var(--accentcolour)
+    border: 3px solid var(--accentColor)
 }
 .notCurrentMonth {
-    color: var(--textcolour2);
+    color: var(--textColorAccent);
 }
 .yearInput, .monthInput {
     position: relative;
@@ -45,12 +47,13 @@
     padding: .4rem;
     width: fit-content;
     min-width: 120px;
-    background: var(--colour4);
+    background: var(--secondaryColor);
     cursor: pointer;
     border-radius: 6px;
 }
 .yearInput:hover, .monthInput:hover, .yearInput:focus, .monthInput:focus {
-    background: var(--accentcolour);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }
 .yearDropdown, .monthDropdown {
     pointer-events: none;
@@ -65,27 +68,31 @@
     padding: 0;
     list-style: none;
     border: var(--border);
-    background: var(--colour5);
+    background: var(--primaryColor);
     width: 100%;
-    box-shadow: var(--shadow);
+    box-shadow: var(--boxShadow);
 }
 .yearInputOpt, .monthInputOpt {
     padding: 0.4rem .7rem;
     cursor: pointer;
+    color: var(--textColorPrimary);
 }
 .yearInputOpt:hover, .monthInputOpt:hover {
-    background: var(--accentcolour);
-    color: var(--colour1);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }
 
 .dayLabelsWrap {
     display: flex;
     align-items: center;
     text-align: center;
-    height: 50px;
 }
 .dayLabel {
-    width: 50px;
+    display: grid;
+    align-items: center;
+    text-align: center;
+    width: var(--cellSize);
+    height: var(--cellSize);
 }
 
 .show {
@@ -94,11 +101,12 @@
     top: 100%;
 }
 .changeMonthBtn {
-    background-color: var(--colour4);
-    color: white;
+    background-color: var(--primaryColor);
+    color: var(--textColorPrimary);
     padding: .4rem .6rem;
     border-radius: 6px;
 }
 .changeMonthBtn:hover {
-    background: var(--accentcolour);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }

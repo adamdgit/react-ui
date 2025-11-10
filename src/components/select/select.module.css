@@ -10,12 +10,12 @@
     width: fit-content;
     min-width: 120px;
     height: 60px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--boxShadow);
     border: var(--border);
 }
 .selectWrap:hover, .selectWrap:focus {
-    background-color: var(--accentcolour);
-    color: var(--colour1);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }
 
 .selectList {
@@ -31,10 +31,10 @@
     padding: 0;
     list-style: none;
     border-radius: 0 0 7px 7px;
-    background: var(--colour3);
-    color: var(--textcolour);
+    background: var(--primaryColor);
+    color: var(--textColorPrimary);
     width: 100%;
-    box-shadow: var(--shadow2);
+    box-shadow: var(--boxShadow);
 }
 
 .show {
@@ -49,8 +49,8 @@
 }
 .selectItem:hover,
 .selectItem:focus {
-    background: var(--accentcolour);
-    color: var(--colour1);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }
 
 .selectLabel {

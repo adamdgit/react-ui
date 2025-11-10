@@ -2,7 +2,7 @@
     z-index: 9999999;
     position: absolute;
     inset: 0;
-    background: var(--transparent);
+    background: rgba(0, 0, 0, .7);
     overflow: hidden;
     
     display: flex;
@@ -20,22 +20,23 @@
 .dialogContent {
     position: relative;
     width: 500px;
-    background: var(--colour1);
+    background: var(--primaryColor);
     padding: 2rem;
     border-radius: 6px;
 }
 
-.dialogBtn {
+.closeBtn {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background: var(--colour5);
-    color: var(--colour1);
+    top: -15px;
+    right: -15px;
+    background: var(--secondaryColor);
+    color: var(--textColorPrimary);
     padding: .7rem;
     border-radius: 50%;
     width: 40px;
     height: 40px;
 }
-.dialogBtn:hover {
-    background: var(--accentcolour);
+.closeBtn:hover {
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }

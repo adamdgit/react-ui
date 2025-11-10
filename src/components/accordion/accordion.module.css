@@ -1,6 +1,5 @@
 .accordion {
-    box-shadow: var(--shadow);
-    border-radius: 1rem;
+    box-shadow: var(--boxShadow);
     width: fit-content;
     min-width: 200px;
     max-width: 500px;
@@ -16,18 +15,20 @@
     justify-content: space-between;
     text-align: left;
     width: 100%;
-    padding: 1rem;
-    background-color: var(--colour1);
+    padding: var(--padding);
+    background: var(--primaryColor);
+    color: var(--textColorPrimary);
     margin: 0;
 }
 .accordionHeader:hover {
-    background-color: var(--accentcolour);
-    color: var(--colour1);
+    background: var(--accentColor);
+    color: var(--hoverTextColor);
 }
 
 .accordionBody {
     pointer-events: none;
-    background-color: var(--colour3);
+    background: var(--secondaryColor);
+    color: var(--textColorSecondary);
     padding: 0;
 
     display: grid;
@@ -44,7 +45,7 @@
 }
 
 .show {
-    padding: 1rem;
+    padding: var(--padding);
     grid-template-rows: 1fr;
     pointer-events: all;
 }

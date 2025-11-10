@@ -2,14 +2,14 @@
     position: absolute;
     z-index: 99999;
     padding: 1rem 1.4rem 1.2rem 1.4rem; 
-    background: var(--colour5);
-    color: var(--colour1);
+    background: var(--primaryColor);
+    color: var(--textColorPrimary);
     border-radius: 5px;
     width: 300px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--boxShadow);
 }
 .toast:hover {
-    background-color: var(--colour4);
+    background-color: var(--secondaryColor);
 }
 
 .toastItem {
@@ -24,10 +24,10 @@
     margin: 0;
     padding: 0;
     border: 0;
-    color: var(--colour1);
+    color: var(--textColorPrimary);
 }
 .toastClose:hover {
-    color: var(--accentcolour);
+    color: var(--accentColor);
 }
 
 .toastProgress {
@@ -35,7 +35,7 @@
     left: 0;
     bottom: 3px;
     height: 3px;
-    background-color: var(--accentcolour);
+    background-color: var(--accentColor);
     animation: progress var(--duration) linear forwards;
 }
 

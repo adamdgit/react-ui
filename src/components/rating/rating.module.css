@@ -1,10 +1,15 @@
 .rating {
     display: flex;
     list-style: none;
+    background: var(--primaryColor);
+    border: var(--border);
+    width: fit-content;
+    padding: .5rem .7rem;
+    box-shadow: var(--boxShadow);
 }
 
 .ratingItem {
     background: unset;
-    color: var(--colour5);
+    color: var(--textColorPrimary);
     padding: .2rem;
 }
