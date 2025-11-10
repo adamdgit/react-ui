@@ -10,18 +10,18 @@ import { Rating, RatingItem } from './components/rating';
 import { DialogContent } from './components/dialog/Dialog';
 import type { CSSThemeOverride } from './types';
 
-const ThemeOverrides: CSSThemeOverride = {
-    primaryColor: "#111",
-    secondaryColor: "#333",
-    accentColor: "#e72173ff",
-    textColorPrimary: "white",
-    textColorSecondary: "#ccc",
-    textColorAccent: "#999",
-    boxShadow: "0 4px 15px 4px #2b2b2bff",
-    hoverBGColor: '#c21b61ff',
-    hoverTextColor: 'white',
-    border: '1px solid #666'
-}
+// const ThemeOverrides: CSSThemeOverride = {
+//     primaryColor: "#111",
+//     secondaryColor: "#333",
+//     accentColor: "#e72173ff",
+//     textColorPrimary: "white",
+//     textColorSecondary: "#ccc",
+//     textColorAccent: "#999",
+//     boxShadow: "0 4px 15px 4px #2b2b2bff",
+//     hoverBGColor: '#c21b61ff',
+//     hoverTextColor: 'white',
+//     border: '1px solid #666'
+// }
 
 export default function App() {
     const [showToast, setShowToast] = useState(true);
@@ -88,6 +88,8 @@ export default function App() {
                 </Accordion>
 
                 <Calendar
+                    dayLabelType='Single'
+                    cellSize={"50px"}
                     showChangeMonthButtons={true}
                     onSelectDay={(val) => console.log(val)}
                     onSelectMonth={(val) => console.log(val)}
