@@ -67,7 +67,9 @@ const RatingContext = createContext<{
     onChange: (value: number) => void;
     ratingsList: HTMLButtonElement[];
     setRatingsList: React.Dispatch<React.SetStateAction<HTMLButtonElement[]>>;
-} | null>(null)
+    selectedRating: null | number;
+    setSelectedRating:  React.Dispatch<React.SetStateAction<null | number>>;
+} | null>(null);
 
 export {
     SelectContext,
