@@ -6,15 +6,19 @@ import type {
     AccordionItemProps, AccordionProps 
 } from "../../types";
 import { AccordionContext, AccordionItemContext } from "../../context";
+import { convertThemeToCSSVars } from "../../utils/convertCSSVars";
 
-function Accordion({ className, children, mode, style }: AccordionProps) {
+function Accordion({ className, children, mode, style, themeOverride }: AccordionProps) {
     const [headers, setHeaders] = useState<HTMLButtonElement[]>([]);
     const [openItemId, setOpenItemId] = useState<string | null>(null);
+
+    // If user provides a theme override, updte the components theme variables
+    const CSSVariables = themeOverride ? convertThemeToCSSVars(themeOverride) : {};
 
     return (
         <AccordionContext.Provider value={{ headers, setHeaders, mode, openItemId, setOpenItemId }}>
             <div 
-                style={style}
+                style={{...style, ...CSSVariables}}
                 className={className ?? styles.accordion} 
                 role="presentation"
             >

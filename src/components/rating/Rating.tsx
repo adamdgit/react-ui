@@ -2,18 +2,23 @@ import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./rating.module.css";
 import type { RatingItemProps, RatingProps } from "../../types";
 import { RatingContext } from "../../context";
+import { convertThemeToCSSVars } from "../../utils/convertCSSVars";
 
 //--------------------------------------------------------------------//
 
-function Rating({ className, style, children, onChange }: RatingProps) {
+function Rating({ className, style, children, onChange, themeOverride }: RatingProps) {
     const ref = useRef<HTMLDivElement>(null);
     const [ratingsList, setRatingsList] = useState<HTMLButtonElement[]>([]);
+    const [selectedRating, setSelectedRating] = useState<null | number>(null);
     
+    // If user provides a theme override, updte the components theme variables
+    const CSSVariables = themeOverride ? convertThemeToCSSVars(themeOverride) : {};
+
     return (
-        <RatingContext.Provider value={{ onChange, ratingsList, setRatingsList }}>
+        <RatingContext.Provider value={{ onChange, ratingsList, setRatingsList, selectedRating, setSelectedRating }}>
             <div
                 ref={ref}
-                style={style}
+                style={{...style, ...CSSVariables}}
                 className={className ?? styles.rating}
             >
                 {children}
@@ -28,27 +33,42 @@ function RatingItem({ className, style, value, icon }: RatingItemProps) {
     const context = useContext(RatingContext);
     if (!context) throw new Error("RatingItem must be a child of Rating");
 
-    const { onChange, ratingsList, setRatingsList } = context;
+    const { onChange, ratingsList, setRatingsList, selectedRating, setSelectedRating } = context;
     const ref = useRef<HTMLButtonElement>(null);
 
     function handleSelectRating(e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) {
         const targetValue = Number(e.currentTarget.value ?? 0);
+        const targetIdx = targetValue -1;
         onChange(targetValue);
+        setSelectedRating(targetIdx);
+
+        highlightRating(targetIdx);
     };
 
     // find current hovered index and highlight all ratings up to hovered
     function handleHoverRating() {
         if (!ref.current) return
-        const currentHoveredIdx = ratingsList.indexOf(ref.current);
+        const hoveredIdx = ratingsList.indexOf(ref.current);
 
-        ratingsList.map((el, idx) => {
-            if (idx > currentHoveredIdx) return
-            el.style.color = '#f7a335ff';
-        });
+        highlightRating(hoveredIdx);
     };
 
     function handleRemoveHover() {
+        // don't reset all highlights on pointer leave if user has made a selection
+        if (selectedRating) {
+            highlightRating(selectedRating); // convert to index
+            return
+        }
         ratingsList.map(el => el.style.color = '');
+    };
+
+    function highlightRating(targetIndex: number) {
+        ratingsList.map((el, idx) => {
+            if (idx > targetIndex)
+                el.style.color = '';
+            else
+                el.style.color = '#f7a335ff';
+        });
     };
 
     useEffect(() => {

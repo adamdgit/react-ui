@@ -2,10 +2,11 @@ import { useContext, useEffect, useRef } from "react";
 import styles from "./toast.module.css"
 import type { ToastContentProps, ToastProps } from "../../types";
 import { ToastContext } from "../../context";
+import { convertThemeToCSSVars } from "../../utils/convertCSSVars";
 
 //--------------------------------------------------------------------//
 
-function Toast({ className, style, children, position, timeoutDuration, showToast, progressBar, onClose }: ToastProps) { 
+function Toast({ className, style, children, position, timeoutDuration, showToast, progressBar, onClose, themeOverride }: ToastProps) { 
     const positionStylesMap = {
         "none":          {},
         "top-left":      { top: "2rem", left: "2rem" },
@@ -16,18 +17,21 @@ function Toast({ className, style, children, position, timeoutDuration, showToas
         "bottom-center": { bottom: "2rem", left: "50%", transform: "translateX(-50%)" },
     }
     
-    // add position styles to the provided styles
+    // updates the toast position using inline styles
     const styleOverride: React.CSSProperties = {
         ...style,
         ...positionStylesMap[position],
     };
     
+    // If user provides a theme override, updte the components theme variables
+    const CSSVariables = themeOverride ? convertThemeToCSSVars(themeOverride) : {};
+
     if (showToast) {
         return (
             <ToastContext.Provider value={{ showToast, timeoutDuration, progressBar, onClose }}>
                 <div 
                     className={className ?? styles.toast} 
-                    style={styleOverride}
+                    style={{...styleOverride, ...CSSVariables}}
                     role="status"
                     aria-atomic="true"
                 >

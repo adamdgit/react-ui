@@ -2,10 +2,11 @@ import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./select.module.css"
 import type { SelectItemProps, SelectListProps, SelectProps } from "../../types";
 import { SelectContext } from "../../context";
+import { convertThemeToCSSVars } from "../../utils/convertCSSVars";
 
 //--------------------------------------------------------------------//
 
-function Select({ value, label, classMap, children, id, onChange, ...props }: SelectProps) {
+function Select({ value, label, className, children, id, onChange, themeOverride, ...props }: SelectProps) {
     const inputRef = useRef<HTMLInputElement | null>(null);
     const [showList, setShowList] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -13,6 +14,9 @@ function Select({ value, label, classMap, children, id, onChange, ...props }: Se
     const [listItems, setListItems] = useState<(HTMLLIElement | HTMLDivElement)[]>([]);
     const [internalVal, setInternalVal] = useState<string | number>(value ?? "");
     const isControlled = value !== undefined;
+
+    // If user provides a theme override, updte the components theme variables
+    const CSSVariables = themeOverride ? convertThemeToCSSVars(themeOverride) : {};
 
     // save reference to each list item in the select dropdown
     useEffect(() => {
@@ -72,7 +76,8 @@ function Select({ value, label, classMap, children, id, onChange, ...props }: Se
             <div 
                 {...props}
                 ref={ref}
-                className={classMap?.selectInput ?? styles.selectWrap}
+                style={{...styles, ...CSSVariables}}
+                className={className ?? styles.selectWrap}
                 onClick={() => setShowList(!showList)}
                 tabIndex={0}
                 onKeyDown={handleKeyPress}
@@ -115,8 +120,11 @@ function SelectList({ children, className, style, ...props}: SelectListProps) {
         <ul 
             {...props}
             id={`${id}-dropdown`}
-            style={style}
-            className={`${className ?? styles.selectList} ${showList ? styles.show : ""}`} 
+            style={{
+                ...style, 
+                ...showList ? {"pointerEvents": "all", "opacity": "1", "top": "100%"} : {}
+            }}
+            className={className ?? styles.selectList} 
             role="listbox"
         >
             {children}

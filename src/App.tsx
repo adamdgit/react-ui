@@ -8,11 +8,24 @@ import { Dialog, DialogCloseButton } from './components/dialog';
 import { Calendar } from './components/calendar';
 import { Rating, RatingItem } from './components/rating';
 import { DialogContent } from './components/dialog/Dialog';
+import type { CSSThemeOverride } from './types';
+
+const ThemeOverrides: CSSThemeOverride = {
+    primaryColor: "#111",
+    secondaryColor: "#333",
+    accentColor: "#e72173ff",
+    textColorPrimary: "white",
+    textColorSecondary: "#ccc",
+    textColorAccent: "#999",
+    boxShadow: "0 4px 15px 4px #2b2b2bff",
+    hoverBGColor: '#c21b61ff',
+    hoverTextColor: 'white',
+    border: '1px solid #666'
+}
 
 export default function App() {
     const [showToast, setShowToast] = useState(true);
     const [showDialog, setShowDialog] = useState(true);
-    const [year, setYear] = useState(2013);
 
     const data = [
         {
@@ -36,7 +49,7 @@ export default function App() {
         }
     ];
 
-    const ratings = [1,2,3,4,5]
+    const ratings = [2,4,6,8]
 
     function handleCloseDialog() {
         setShowDialog(false)
@@ -50,7 +63,7 @@ export default function App() {
 
     return (
         <div>
-            <h1>React-UI</h1>
+            <h1>Atom-UI Showcase</h1>
             <button 
                 className='btn'
                 onClick={() => setShowToast(!showToast)}
@@ -76,8 +89,6 @@ export default function App() {
 
                 <Calendar
                     showChangeMonthButtons={true}
-                    mode='single'
-                    onClose={() => console.log("closed")}
                     onSelectDay={(val) => console.log(val)}
                     onSelectMonth={(val) => console.log(val)}
                     onSelectYear={(val) => console.log(val)}
@@ -108,10 +119,10 @@ export default function App() {
                 </Toast>
 
                 <Tooltip style={{margin: "20px"}}>
-                    <button style={{padding: '.5rem 1rem', background: "var(--accentcolour)", color: "#fff", borderRadius: "5px"}}>Add</button>
+                    <button style={{padding: '.5rem 1rem', background: "var(--accentColor)", color: "#fff", borderRadius: "5px"}}>Add</button>
                     <TooltipPopup
                         content='Add to cart'
-                        position='bottom-center'
+                        position='top-center'
                     >
                     </TooltipPopup>
                 </Tooltip>

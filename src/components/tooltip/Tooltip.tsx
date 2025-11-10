@@ -5,10 +5,11 @@ import type {
     TooltipProps 
 } from "../../types";
 import { TooltipContext } from "../../context";
+import { convertThemeToCSSVars } from "../../utils/convertCSSVars";
 
 //--------------------------------------------------------------------//
 
-function Tooltip({ className, children, style }: TooltipProps) {
+function Tooltip({ className, children, style, themeOverride }: TooltipProps) {
     const elementSize = { width: 0, height: 0 };
     const ref = useRef<HTMLDivElement | null>(null);
 
@@ -19,11 +20,14 @@ function Tooltip({ className, children, style }: TooltipProps) {
         elementSize.width = ref.current?.clientWidth ?? 0
         elementSize.height = ref.current?.clientHeight ?? 0
     },[])
+    
+    // If user provides a theme override, updte the components theme variables
+    const CSSVariables = themeOverride ? convertThemeToCSSVars(themeOverride) : {};
 
     return (
         <TooltipContext.Provider value={{ elementSize, ref }}>
             <div 
-                style={style}
+                style={{...style, ...CSSVariables}}
                 ref={ref}
                 className={className ?? styles.tooltip} 
                 role="status"

@@ -2,10 +2,16 @@ import { useEffect, useState } from "react"
 import styles from "./calendar.module.css";
 import type { CalendarProps, DaySelectProps } from "../../types";
 import { Select, SelectItem, SelectList } from "../select";
+import { convertThemeToCSSVars,} from "../../utils/convertCSSVars";
+import { 
+    generateCalendarDays, 
+    generateMonthsDropdown, 
+    generateYearsDropdown } 
+from "../../utils/calendarCalcs";
 
 //--------------------------------------------------------------------//
 
-function Calendar({ classMap, styleMap, mode, showChangeMonthButtons, yearDropdownData, onClose, onSelectDay, onSelectMonth, onSelectYear }: CalendarProps) {
+function Calendar({ classMap, styleMap, showChangeMonthButtons, yearDropdownData, onSelectDay, onSelectMonth, onSelectYear, cellSize, themeOverride }: CalendarProps) {
     const [calendarYears] = useState(yearDropdownData ?? generateYearsDropdown);
     const [calendarMonths] = useState(generateMonthsDropdown);
     const [calendarData, setCalendarData] = useState<Date[]>([]);
@@ -42,10 +48,17 @@ function Calendar({ classMap, styleMap, mode, showChangeMonthButtons, yearDropdo
         setSelectedMonth(month);
     };
 
+    // If user provides a theme override, updte the components theme variables
+    const CSSVariables = themeOverride ? convertThemeToCSSVars(themeOverride) : {};
+    
     return (
         <div 
             className={classMap?.calendarWrap ?? styles.calendarWrap}
-            style={styleMap?.calendarWrap}
+            style={{
+                ...styleMap?.calendarWrap, 
+                ...CSSVariables,
+                ...cellSize ? {"--cellSize": cellSize} : {}
+            }}
         >
             <div className={classMap?.calendarHeader ?? styles.calendarHeader}>
                 <div className={classMap?.headerWrap ?? styles.headerWrap}>
@@ -58,16 +71,12 @@ function Calendar({ classMap, styleMap, mode, showChangeMonthButtons, yearDropdo
                     </button>}
                     <Select
                         value={selectedYear}
-                        classMap={{
-                            show: styles.show,
-                            selectInput: classMap?.yearInput ?? styles.yearInput,
-                            selectDropdown: classMap?.yearDropdown ?? styles.yearDropdown
-                        }}
+                        className={classMap?.yearInput ?? styles.yearInput}
                         id='year'
                         label='Year'
                         onChange={(val) => handleSelectYear(Number(val))}
                     >
-                        <SelectList>
+                        <SelectList className={classMap?.yearDropdown ?? styles.yearDropdown}>
                             {calendarYears.map((year) => 
                                 <SelectItem 
                                     className={classMap?.yearInputOpt ?? styles.yearInputOpt}
@@ -82,16 +91,12 @@ function Calendar({ classMap, styleMap, mode, showChangeMonthButtons, yearDropdo
 
                     <Select
                         value={calendarMonths[selectedMonth].month}
-                        classMap={{ 
-                            show: styles.show,
-                            selectDropdown: classMap?.monthDropdown ?? styles.monthDropdown,
-                            selectInput: classMap?.monthInput ?? styles.monthInput
-                        }}
+                        className={classMap?.monthInput ?? styles.monthInput}
                         id='month'
                         label='Month'
                         onChange={(val) => handleSelectMonth(Number(val))}
                     >
-                        <SelectList>
+                        <SelectList className={classMap?.monthDropdown ?? styles.monthDropdown}>
                             {calendarMonths.map(month => 
                                 <SelectItem 
                                     className={classMap?.monthInputOpt ?? styles.monthInputOpt} 
@@ -166,76 +171,6 @@ function DaySelect({ day, month, onSelectDay }: DaySelectProps) {
             {day.toLocaleString('en-au', { day: 'numeric' })}
         </button>
     )
-}
-
-//--------------------------Util Functions----------------------------//
-
-function generateYearsDropdown() {
-    const data = [];
-    const currentYear = Number(new Date().getFullYear());
-    data.push(currentYear)
-    for (let i = 1; i < 15; i ++) {
-        data.push(currentYear +i)
-    }
-    return data;
-}
-
-function generateMonthsDropdown() {
-    return [
-        { month: "January", value: 0 },
-        { month: "February", value: 1 },
-        { month: "March", value: 2 },
-        { month: "April", value: 3 },
-        { month: "May", value: 4 },
-        { month: "June", value: 5 },
-        { month: "July", value: 6 },
-        { month: "August", value: 7 },
-        { month: "September", value: 8 },
-        { month: "October", value: 9 },
-        { month: "November", value: 10 },
-        { month: "December", value: 11 },
-    ];
-}
-
-// Calculates days of previous and next months as well as current month
-function generateCalendarDays(month: number, year: number) {
-    const data: Date[] = [];
-
-    // Date variables to calculate previous, current and next months dates
-    const currentMonth = new Date(year, month, 1);
-    const firstDayPrevMonth = new Date(year, month, 0).getDate();
-
-    // getDay() returns day as int 0=sun, 1=mon.. 6=sat etc
-    let firstDayMonth = new Date(year, month, 1, 0).getDay();
-
-    // Sunday is counted as 0, must convert to 7 for calculations below
-    if (firstDayMonth == 0) firstDayMonth = 7;
-
-    const calc = (firstDayPrevMonth + 1) - (firstDayMonth - 1);
-    const prevMonth = new Date(year, month - 1, calc);
-    const lastDayMonth = new Date(year, month + 1, 0).getDay();
-    const nextMonth = new Date(year, month + 1, 1);
-
-    // show some days from previous month
-    for (let i = (firstDayPrevMonth + 1) - firstDayMonth; i < firstDayPrevMonth; i++) {
-        const prevMonthDays = new Date(prevMonth);
-        prevMonth.setDate(prevMonth.getDate() + 1);
-        data.push(prevMonthDays);
-    }
-    // current month calc
-    while (currentMonth.getMonth() === month) {
-        const currentMonthDay = new Date(currentMonth);
-        currentMonth.setDate(currentMonth.getDate() + 1);
-        data.push(currentMonthDay);
-    }
-    // show some days from next month
-    for (let i = 1; i <= 7 - lastDayMonth; i++) {
-        const nextMonthDays = new Date(nextMonth);
-        nextMonth.setDate(nextMonth.getDate() + 1);
-        data.push(nextMonthDays);
-    }
-
-    return data;
 }
 
 export {
