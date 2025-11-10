@@ -6,6 +6,25 @@ import type { ToastContent } from "../components/toast";
 import type React from "react";
 import type { RatingItem } from "../components/rating";
 import type { DialogContent } from "../components/dialog/Dialog";
+import type * as CSS from "csstype";
+
+/*-------- CSS theme override Type --------*/
+
+type CSSThemeOverride = {
+    primaryColor?: CSS.Property.Color;
+    secondaryColor?: CSS.Property.Color;
+    accentColor?: CSS.Property.Color;
+    hoverBGColor?: CSS.Property.Color;
+    hoverTextColor?: CSS.Property.Color;
+    textColorPrimary?: CSS.Property.Color;
+    textColorSecondary?: CSS.Property.Color;
+    textColorAccent?: CSS.Property.Color;
+    border?: CSS.Property.Border;
+    boxShadow?: CSS.Property.BoxShadow;
+    padding?: CSS.Property.Padding;
+    margin?: CSS.Property.Margin;
+    fontSize?: CSS.Property.FontSize;
+}
 
 /*-------- Accordion Types --------*/
 
@@ -20,6 +39,7 @@ type AccordionProps = {
      * - `single`: Only one item can be expanded at a time.
     */
     mode: "multiple" | "single";
+    themeOverride?: CSSThemeOverride;
 }
 
 type AccordionItemProps = {
@@ -49,6 +69,7 @@ type TooltipProps = {
     className?: string;
     children: ReactNode;
     style?: React.CSSProperties;
+    themeOverride?: CSSThemeOverride;
 }
 
 type TooltipPopupProps = {
@@ -83,6 +104,7 @@ type ToastProps = {
     */
     progressBar: boolean;
     onClose: () => void;
+    themeOverride?: CSSThemeOverride;
 }
 
 type ToastContentProps = {
@@ -98,11 +120,7 @@ type SelectProps = {
      * Otherwise it will handle its own internal state
     */
     value?: number | string;
-    classMap?: {
-        show?: string;
-        selectInput?: string;
-        selectDropdown?: string;
-    };
+    className?: string;
     /* Must have SelectItems as children */
     children: React.ReactElement<typeof SelectList>;
     id: string;
@@ -114,6 +132,7 @@ type SelectProps = {
      * Returns value of the selected option onchange
     */
     onChange: (value: string) => void;
+    themeOverride?: CSSThemeOverride;
 } & React.ComponentProps<'div'>
 
 type SelectListProps = {
@@ -139,6 +158,7 @@ type DialogProps = {
      * Runs when the dialog has been closed
     */
     onClose: () => void;
+    themeOverride?: CSSThemeOverride;
 };
 
 type DialogContentProps = {
@@ -185,19 +205,19 @@ type CalendarProps = {
     */
     showChangeMonthButtons: boolean;
     /**
-     * Select a single date only or create a range between 2 selected dates
-    */
-    mode: "single" | "range";
-    /**
      * Defaults to current year + 15 more.
      * Provide an array of years as numbers to override
      * eg: [2012, 2013, 2014]
     */
     yearDropdownData?: number[];
-    onClose: () => void;
     onSelectDay: (val: Date) => void;
     onSelectMonth: (val: number) => void;
     onSelectYear: (val: number) => void;
+    /**
+     * Modify the calendar grid size (dates/days)
+    */
+    cellSize?: CSS.Property.Width | CSS.Property.Height;
+    themeOverride?: CSSThemeOverride;
 };
 
 type DaySelectProps = {
@@ -213,6 +233,7 @@ type RatingProps = {
     style?: React.CSSProperties;   
     children: React.ReactElement<typeof RatingItem>[] | React.ReactElement<typeof RatingItem>;
     onChange: (val: number) => void;
+    themeOverride?: CSSThemeOverride;
 }
 
 type RatingItemProps = {
@@ -225,7 +246,9 @@ type RatingItemProps = {
     icon: React.ReactElement<typeof SVGAElement> | React.ReactElement<typeof HTMLImageElement>;
     value: number | string;
 }
+
 export type {
+    CSSThemeOverride,
     AccordionProps,
     AccordionItemProps,
     AccordionHeaderProps,
