@@ -1,5 +1,6 @@
 .accordion {
     box-shadow: var(--boxShadow);
+    border: var(--border);
     width: fit-content;
     min-width: 200px;
     max-width: 500px;
