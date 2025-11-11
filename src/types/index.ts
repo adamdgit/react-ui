@@ -4,7 +4,6 @@ import type { AccordionBody, AccordionHeader, AccordionItem } from "../component
 import type { SelectItem, SelectList } from "../components/select";
 import type { ToastContent } from "../components/toast";
 import type React from "react";
-import type { RatingItem } from "../components/rating";
 import type { DialogContent } from "../components/dialog/Dialog";
 import type * as CSS from "csstype";
 
@@ -238,20 +237,14 @@ type DaySelectProps = {
 type RatingProps = {
     className?: string;
     style?: React.CSSProperties;   
-    children: React.ReactElement<typeof RatingItem>[] | React.ReactElement<typeof RatingItem>;
     onChange: (val: number) => void;
-    themeOverride?: CSSThemeOverride;
-}
-
-type RatingItemProps = {
-    className?: string;
-    style?: React.CSSProperties;   
-    /**
-     * Child should be an svg or image element, 
-     * which is the icon of the rating system, eg: star icon
-    */
     icon: React.ReactElement<typeof SVGAElement> | React.ReactElement<typeof HTMLImageElement>;
-    value: number | string;
+    /**
+     * Allow ratings to go up in .5 increments
+    */   
+    allowHalfRatings: boolean;
+    maxRating: number;
+    themeOverride?: CSSThemeOverride;
 }
 
 export type {
@@ -273,5 +266,4 @@ export type {
     CalendarProps,
     DaySelectProps,
     RatingProps,
-    RatingItemProps
 }
