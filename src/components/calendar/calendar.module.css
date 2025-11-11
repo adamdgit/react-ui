@@ -24,7 +24,6 @@
 .date {
     width: var(--cellSize);
     height: var(--cellSize);
-    border-radius: 6px;
     background: unset;
     color: var(--textColorPrimary);
 }
@@ -33,7 +32,7 @@
     color: var(--hoverTextColor);
 }
 .today {
-    border: 3px solid var(--accentColor)
+    border: 3px solid var(--accentColor);
 }
 .notCurrentMonth {
     color: var(--textColorAccent);
@@ -49,7 +48,6 @@
     min-width: 120px;
     background: var(--secondaryColor);
     cursor: pointer;
-    border-radius: 6px;
 }
 .yearInput:hover, .monthInput:hover, .yearInput:focus, .monthInput:focus {
     background: var(--accentColor);
