@@ -188,13 +188,15 @@ function DaySelect({ day, month, onSelectDay, selectedDay, setSelectedDay }: Day
 
     return (
         <button
-            style={selectedDay === day ? {background : "var(--accentColor)"} : {}}
+            style={selectedDay === day ? {background : "var(--accentColor)", color: "var(--hoverTextColor)"} : {}}
             onClick={() => handleSelectedDay()}
-            className={`${styles.date} ${
+            className={
+                `${styles.date} ${
                 dayIsToday(day) ? styles.today :
-                !dayIsInCurrentMonth(day) ? styles.notCurrentMonth :
-            ''}`}
-            value={day.toLocaleString('en-au', { day: '2-digit', month: '2-digit', year: 'numeric' })}>
+                !dayIsInCurrentMonth(day) ? styles.notCurrentMonth : ''}`
+            }
+            value={day.toLocaleString('en-au', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+        >
             {day.toLocaleString('en-au', { day: 'numeric' })}
         </button>
     )
