@@ -2,5 +2,4 @@
 
 export {
     Rating,
-    RatingItem
 } from "./Rating"
