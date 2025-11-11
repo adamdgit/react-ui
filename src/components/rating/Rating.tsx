@@ -38,10 +38,11 @@ function Rating({ className, style, onChange, allowHalfRatings, maxRating, icon,
         });
     };
 
+    // highlight ratings up to what the user is hovered over/selected
     function highlightRating(targetValue: number) {
         ratingsRef.current.map((el, i) => {
             if (el) {
-                if (i > targetValue -1) {// must convert to index eg star 5 is idx 4
+                if (i > targetValue -1) {
                     el.style.color = '';
                 }
                 else {
@@ -51,20 +52,44 @@ function Rating({ className, style, onChange, allowHalfRatings, maxRating, icon,
         });
     };
 
+    const handleKeyboard = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+        if (e.key === "ArrowRight") {
+            const next = Math.min(i + 1, ratings.length - 1);
+            ratingsRef.current[next]?.focus();
+            setSelectedRating(ratings[next]);
+        }
+
+        if (e.key === "ArrowLeft") {
+            const prev = Math.max(i - 1, 0);
+            ratingsRef.current[prev]?.focus();
+            setSelectedRating(ratings[prev]);
+        }
+
+        if (e.key === "Enter" || e.key === " ") {
+            setSelectedRating(ratings[i]);
+        }
+    };
+
     return (
         <div
             ref={ref}
+            role="radiogroup"
+            aria-label="Rating"
             style={{...style, ...CSSVariables}}
             className={className ?? styles.rating}
         >
+            <span>rating name</span>
             {ratings.map((r, i) => 
                 <button
-                    ref={el => {ratingsRef.current[i] = el}}
+                    ref={el => { ratingsRef.current[i] = el }}
+                    role="radio"
+                    aria-checked={selectedRating === r}
                     style={style}
                     className={className ?? styles.ratingItem}
                     onClick={handleSelectRating}
                     onPointerEnter={handleHoverRating}
                     onPointerLeave={handleRemoveHover}
+                    onKeyDown={e => handleKeyboard(e, i)}
                     value={r}
                 >
                     {icon}
