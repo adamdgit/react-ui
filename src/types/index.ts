@@ -238,13 +238,28 @@ type RatingProps = {
     className?: string;
     style?: React.CSSProperties;   
     onChange: (val: number) => void;
-    icon: React.ReactElement<typeof SVGAElement> | React.ReactElement<typeof HTMLImageElement>;
     /**
      * Allow ratings to go up in .5 increments
     */   
     allowHalfRatings: boolean;
-    maxRating: number;
+    data: RatingData[];
+    iconFull: React.ReactElement<typeof SVGAElement> | React.ReactElement<typeof HTMLImageElement>;
+    iconEmpty: React.ReactElement<typeof SVGAElement> | React.ReactElement<typeof HTMLImageElement>;
+    /**
+     * Position for text tooltip around rating component
+    */ 
+    textPosition: "top" | "bottom";
     themeOverride?: CSSThemeOverride;
+}
+
+type RatingData = {
+    name: string,
+    value: number
+}
+
+type RatingSelectedData = {
+    rating: number | null;
+    index: number | null;
 }
 
 export type {
@@ -266,4 +281,6 @@ export type {
     CalendarProps,
     DaySelectProps,
     RatingProps,
+    RatingData,
+    RatingSelectedData
 }
